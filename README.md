@@ -10,5 +10,5 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 ---
 ## Nhiệm vụ tuần 1:
 > Tạo một nhánh `/họ tên` để thêm thông tin của mình vào nhóm.
-Tiến độ: chưa hoàn thành
+Tiến độ: :x:
 
