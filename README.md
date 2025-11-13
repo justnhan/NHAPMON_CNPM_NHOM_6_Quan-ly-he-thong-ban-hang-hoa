@@ -14,8 +14,8 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 - link git hub: https://github.com/justnhan
 ---
 - Họ và tên: Lê Tuyển
-
-
+- Mã SV: 24S1020082
+- Link github: https://github.com/leetuyeenr
 ---
 - Họ và tên: Bế Hồ Anh
 
