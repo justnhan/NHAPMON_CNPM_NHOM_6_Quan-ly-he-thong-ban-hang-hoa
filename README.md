@@ -8,7 +8,7 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 ---
 *làm một phần mềm đơn giản về mua bán hàng sử dụng ngôn ngữ lập trình python và thực hiện cộng tác trên git hub.*
 ---
-## Nhiệm vụ tuần 1:
+## Nhiệm vụ sprint 0:
 > Tạo một nhánh `/họ tên` để thêm thông tin của mình vào nhóm.
 Tiến độ: :x:
 
