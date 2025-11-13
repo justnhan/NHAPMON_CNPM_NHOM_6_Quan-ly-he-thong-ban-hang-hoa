@@ -9,19 +9,19 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 *làm một phần mềm đơn giản về mua bán hàng sử dụng ngôn ngữ lập trình python và thực hiện cộng tác trên git hub.*
 ---
 ## Thông tin thành viên nhóm:
-- Thông tin: Phan Văn Hoàng Nhân
+- Họ và tên: Phan Văn Hoàng Nhân
 - Mã SV: 24S1020051
 - link git hub: https://github.com/justnhan
 ---
-- Thông tin: Lê Tuyển
+- Họ và tên: Lê Tuyển
 
 
 ---
-- Thông tin: Bế Hồ Anh
+- Họ và tên: Bế Hồ Anh
 
 
 ---
-- Thông tin: Nguyễn Đăng Đàn
+- Họ và tên: Nguyễn Đăng Đàn
 
 
 ---
