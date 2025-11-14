@@ -18,7 +18,8 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 - Link github: https://github.com/leetuyeenr
 ---
 - Họ và tên: Bế Hồ Anh
-
+- Mã SV: 24S1020002
+- Link github: https://github.com/hoanhnee
 
 ---
 - Họ và tên: Nguyễn Đăng Đàn
