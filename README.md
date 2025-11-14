@@ -22,7 +22,7 @@ Về cơ bản, đây là một hệ thống được chia ra làm 2 mức khung
 
 ---
 - Họ và tên: Nguyễn Đăng Đàn
-![alt text](https://github.com/DangDan111.png)
+- ![Ảnh đại diện](https://github.com/DangDan111.png)
 ## Thông tin liên hệ
 - Email: **dangdan0404@gmail.com**
 - Facebook:(https://facebook.com/nguyen.ang.an.70526)
