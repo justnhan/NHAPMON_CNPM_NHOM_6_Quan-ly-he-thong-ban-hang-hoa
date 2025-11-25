@@ -1,9 +1,9 @@
 ad="NHAN"
 ps= "123"
-print("Ch‡o m?ng b?n d„ d?n!")
+print("Ch√†o m?ng b?n d√£ d?n!")
 print("---------------------------------------------")
 for i in range (3):
-    print ("M?i b?n nh?p tÍn dang nh?p:")
+    print ("M?i b?n nh?p t√™n dang nh?p:")
     a= input()
     print("m?i b?n nh?p m?t kh?u:")
     b= input()
@@ -11,16 +11,17 @@ for i in range (3):
         for j in range (3):
             if b==ps:
                 flag=True
-                print ("Ch‡o m?ng b?n d„ d?n v?i nh‡ camon!")
+                print ("Ch√†o m?ng b?n d√£ d?n v?i nh√† camon!")
                 break
             else:
                 flag=False
-                print("sai m?t kh?u, vui lÚng nh?p l?i!")
+                print("sai m?t kh?u, vui l√≤ng nh?p l?i!")
                 b=input()
         if flag==True:
             break
         else:
-            print("Sai qu· nhi?u l?n, d„ h?t lu?t nh?p! Vui lÚng t?o l?i.")
+            print("Sai qu√° nhi?u l?n, d√£ h?t lu?t nh?p! Vui l√≤ng t?o l?i.")
             break
     else:
-        print("T‡i kho?n khÙng t?n t?i, vui lÚng nh?p l?i!")
+        print("T√†i kho?n kh√¥ng t?n t?i, vui l√≤ng nh?p l?i!")
+print("ch∆∞a ƒë∆∞·ª£c s·ª≠a!")
