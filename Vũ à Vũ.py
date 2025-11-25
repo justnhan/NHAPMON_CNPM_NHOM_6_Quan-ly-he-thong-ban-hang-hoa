@@ -1,15 +1,15 @@
 tk="camonvidaden"
 mk="anhdadenbenem"
-print("m?i b?n nh?p tài kho?n")
+print("moi ban nhap tÃ i kho?n")
 a=input()
-print("m?i b?n nh?p m?t kh?u")
+print("moi ban nhap mat khau")
 b=input()
 for i in range(3):
 
     if a==tk:
-        print("b?n dã nh?p tk dúng")
+        print("ban dÃ£ nhap tk dÃºng")
         if b==mk:
-            print("b?n dã dúng")
+            print("ban dÃ£ dÃºng")
             break
         else:
             print("m ngu")
