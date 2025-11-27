@@ -7,7 +7,7 @@ b=input()
 for i in range(3):
 
     if a==tk:
-        print("ban dã nhap tk dúng")
+        print("ban dã nhap tai khoan dúng")
         if b==mk:
             print("ban dã dúng")
             break
