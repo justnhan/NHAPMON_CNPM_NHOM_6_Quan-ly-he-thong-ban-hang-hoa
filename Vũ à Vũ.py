@@ -4,7 +4,7 @@ print("moi ban nhap tài khoan")
 a=input()
 print("moi ban nhap mat khau")
 b=input()
-for i in range(3):
+for i in range(2):
 
     if a==tk:
         print("ban dã nhap tai khoan dúng")
