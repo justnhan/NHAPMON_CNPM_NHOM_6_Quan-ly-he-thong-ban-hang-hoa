@@ -12,9 +12,9 @@ for i in range(3):
             print("ban dã dúng")
             break
         else:
-            print("m ngu")
+            print("ban da nhap sai")
             break
     else:
-        print("m ngu")
+        print("ban da nhap sai")
         break
         
