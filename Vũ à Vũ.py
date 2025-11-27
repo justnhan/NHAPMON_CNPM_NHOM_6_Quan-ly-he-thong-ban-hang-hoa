@@ -1,6 +1,6 @@
 tk="camonvidaden"
 mk="anhdadenbenem"
-print("moi ban nhap tài kho?n")
+print("moi ban nhap tài khoan")
 a=input()
 print("moi ban nhap mat khau")
 b=input()
