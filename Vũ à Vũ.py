@@ -1,20 +1,20 @@
 tk="camonvidaden"
 mk="anhdadenbenem"
-print("moi ban nhap tài khoan")
+print("mời bạn nhập tài khoản")
 a=input()
-print("moi ban nhap mat khau")
+print("mời bạn nhập mật khẩu")
 b=input()
 for i in range(2):
 
     if a==tk:
         print("ban dã nhap tai khoan dúng")
         if b==mk:
-            print("ban dã dúng")
+            print("bạn đã dúng")
             break
         else:
-            print("ban da nhap sai")
+            print("bạn đã nhập sai")
             break
     else:
-        print("ban da nhap sai")
+        print("bạn đã nhập sai sai")
         break
         
