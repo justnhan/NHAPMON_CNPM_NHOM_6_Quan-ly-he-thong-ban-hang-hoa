@@ -1,0 +1,53 @@
+# Danh sách sản phẩm: mỗi sản phẩm là dict
+san_pham = [
+    {"ten": "Áo thun", "gia": 150000},
+    {"ten": "Quần jeans", "gia": 300000},
+    {"ten": "Giày thể thao", "gia": 500000}
+]
+
+def hien_thi():
+    if not san_pham:
+        print("Danh sách sản phẩm trống!")
+        return
+    print("\n=== Danh sách sản phẩm ===")
+    for i, sp in enumerate(san_pham, 1):
+        print(f"{i}. {sp['ten']} - Giá: {sp['gia']} VND")
+
+def them_san_pham():
+    ten = input("Nhập tên sản phẩm: ")
+    gia = int(input("Nhập giá sản phẩm: "))
+    san_pham.append({"ten": ten, "gia": gia})
+    print(f"Đã thêm sản phẩm {ten} thành công!")
+
+def xoa_san_pham():
+    hien_thi()
+    if not san_pham:
+        return
+    idx = int(input("Nhập số thứ tự sản phẩm muốn xóa: "))
+    if 1 <= idx <= len(san_pham):
+        sp = san_pham.pop(idx-1)
+        print(f"Đã xóa sản phẩm {sp['ten']}")
+    else:
+        print("Số thứ tự không hợp lệ!")
+
+# Menu terminal
+while True:
+    print("\n=== Giao diện người bán ===")
+    print("1. Xem danh sách sản phẩm")
+    print("2. Thêm sản phẩm")
+    print("3. Xóa sản phẩm")
+    print("4. Thoát")
+
+    choice = input("Chọn chức năng: ")
+
+    if choice == "1":
+        hien_thi()
+    elif choice == "2":
+        them_san_pham()
+    elif choice == "3":
+        xoa_san_pham()
+    elif choice == "4":
+        print("Thoát chương trình.")
+        break
+    else:
+        print("Chọn sai, thử lại!")
