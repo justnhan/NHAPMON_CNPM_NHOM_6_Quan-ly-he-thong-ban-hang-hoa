@@ -1,11 +1,28 @@
 import os
-File_Taikhoan = "taikhoan.inp"
+# Lấy thư mục chứa file .py hiện tại
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Nối tên file taikhoan.inp vào thư mục này
+File_Taikhoan = os.path.join(current_dir, "taikhoan.inp")
 
 # Hàm lưu tài khoản mới vào file
 def Dang_ky():
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
     username = input("Nhập tên đăng nhập: ")
     password = input("Nhập mật khẩu: ")
+
+    # Chọn loại tài khoản
+    print("Chọn loại tài khoản:")
+    print("1. Người mua")
+    print("2. Người bán")
+    loai = input("Chọn (1/2): ")
+    if loai == "1":
+        role = 1
+    elif loai == "2":
+        role = 2
+    else:
+        print("Lựa chọn không hợp lệ! Đăng ký thất bại.\n")
+        return
 
     # Kiểm tra trùng username
     with open(File_Taikhoan, "r") as f:
@@ -15,11 +32,11 @@ def Dang_ky():
                 print("Tên đăng nhập đã tồn tại! Hãy thử tên khác.\n")
                 return
 
-    # Lưu tài khoản mới
+    # Lưu tài khoản mới (bổ sung role)
     with open(File_Taikhoan, "a") as f:
-        f.write(f"{username}:{password}\n")
+        f.write(f"{username}:{password}:{role}\n")
 
-    print("Tạo tài khoản thành công!\n")
+    print(f"Tạo tài khoản thành công! Loại tài khoản: {role}\n")
 
 
 # Hàm đăng nhập
@@ -36,7 +53,7 @@ def Dang_nhap():
     saved_password = None
     with open(File_Taikhoan, "r") as f:
         for line in f:
-            saved_user, saved_pass = line.strip().split(":")
+            saved_user, saved_pass, role = line.strip().split(":")
             if saved_user == username:
                 saved_password = saved_pass
                 break
