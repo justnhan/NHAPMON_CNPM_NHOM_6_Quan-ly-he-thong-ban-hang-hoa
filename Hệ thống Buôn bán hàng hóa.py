@@ -26,21 +26,40 @@ def Dang_ky():
 def Dang_nhap():
     print("\n--- ĐĂNG NHẬP ---")
     username = input("Tên đăng nhập: ")
-    password = input("Mật khẩu: ")
 
-    # Đọc file kiểm tra
+    # Kiểm tra file tồn tại
     if not os.path.exists(File_Taikhoan):
         print("Chưa có tài khoản nào! Hãy đăng ký trước.\n")
         return False
 
+    # Đọc file để tìm username trước
+    saved_password = None
     with open(File_Taikhoan, "r") as f:
         for line in f:
             saved_user, saved_pass = line.strip().split(":")
-            if saved_user == username and saved_pass == password:
-                print("Đăng nhập thành công!\n")
-                return True
+            if saved_user == username:
+                saved_password = saved_pass
+                break
 
-    print("Sai tên đăng nhập hoặc mật khẩu!\n")
+    # Không tìm thấy username
+    if saved_password is None:
+        print("Tên đăng nhập không tồn tại!\n")
+        return False
+
+    # Username đúng → bắt đầu kiểm tra mật khẩu với 3 lần thử
+    Lanthu = 0
+    while Lanthu < 3:
+        password = input("Mật khẩu: ")
+
+        if password == saved_password:
+            print("Đăng nhập thành công!\n")
+            return True
+        else:
+            Lanthu += 1
+            if Lanthu < 3:
+                print("Sai mật khẩu! Bạn còn" ,3 - Lanthu, "lần thử.\n")
+
+    print("Bạn đã nhập sai mật khẩu quá 3 lần. Đăng nhập thất bại!\n")
     return False
 
 
@@ -63,3 +82,6 @@ def Main():
             exit()
         else:
             print("Lựa chọn không hợp lệ!\n")
+
+if __name__=="__main__":
+    Main()
