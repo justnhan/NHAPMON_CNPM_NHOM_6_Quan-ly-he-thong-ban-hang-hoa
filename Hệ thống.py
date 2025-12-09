@@ -354,6 +354,26 @@ def main():
         else:
             print("❌ Lựa chọn không hợp lệ!")
 
+def xem_danh_sach_nguoi_dung():
+    CYAN = "\033[96m"
+    RESET = "\033[0m"
+    YELLOW = "\033[93m"
+
+    if not users:
+        print("\n⚠️ Hiện chưa có tài khoản nào trong hệ thống.")
+        return
+
+    print(f"\n{CYAN}======= DANH SÁCH NGƯỜI DÙNG ========{RESET}")
+
+    for username, info in users.items():
+        print(f"{YELLOW}• Tên tài khoản:{RESET} {username}")
+        print(f"  Mật khẩu : {info['password']}")
+        print(f"  Email    : {info['email']}")
+        print(f"  SĐT      : {info['phone']}")
+        print(f"  Vai trò  : {info['role']}")
+        print("----------------------------------")
+
+
 
 if __name__ == "__main__":
     main()
