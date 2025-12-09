@@ -28,7 +28,33 @@ def buyer_menu(TenDangNhap):
     print("\nBạn muốn làm gì?")
     choice = input("Chọn chức năng: ")
     return choice
+
 def seller_menu(TenDangNhap):
+
+    # Màu sắc
+    CYAN = "\033[96m"
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
+
+    # Lời chào (không khung)
+    print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
+    print("Chúc bạn một ngày tốt lành!\n")
+
+    # Menu có khung
+    print(f"{CYAN}╔════════════════════════════╗{RESET}")
+    print(f"{CYAN}║        MENU NGƯỜI BÁN      ║{RESET}")
+    print(f"{CYAN}╚════════════════════════════╝{RESET}")
+
+    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm của bạn")
+    print(f"{YELLOW}2.{RESET} Thêm sản phẩm mới")
+    print(f"{YELLOW}3.{RESET} Sửa thông tin sản phẩm")
+    print(f"{YELLOW}4.{RESET} Xóa sản phẩm")
+    print(f"{YELLOW}5.{RESET} Xem đơn hàng của cửa hàng")
+    print(f"{YELLOW}0.{RESET} Đăng xuất")
+
+    print("\nBạn muốn làm gì?")
+    choice = input("Chọn chức năng: ")
+    return choice
     
 
 # --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
