@@ -273,33 +273,7 @@ def add_product(username):
 
     print("✅ Thêm sản phẩm thành công!")
 
-def seller_menu(username):
-    while True:
-        print("\n=== MENU NGƯỜI BÁN ===")
-        print("1. Thêm sản phẩm")
-        print("2. Chỉnh sửa sản phẩm")
-        print("3. Đổi mật khẩu")
-        print("4. Thay đổi thông tin liên hệ")
-        print("5. Đăng xuất")
 
-        choice = input("Chọn: ").strip()
-
-        if choice == "1":
-            add_product(username)
-        elif choice == "2":
-            edit_product(username)
-        elif choice == "3":
-            change_password(username)
-        elif choice == "4":
-            change_contact(username)
-        elif choice == "5":
-            break
-        else:
-            print("❌ Lựa chọn không hợp lệ!")
-
-def buyer_menu(username):
-    print("\n💬 Chức năng người mua sẽ được cập nhật sau!")
-    input("Nhấn Enter để quay lại menu...")
 
 def edit_product(username):
     print("\n--- CHỈNH SỬA SẢN PHẨM ---")
