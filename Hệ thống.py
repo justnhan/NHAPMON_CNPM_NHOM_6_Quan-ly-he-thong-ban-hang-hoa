@@ -16,7 +16,7 @@ def buyer_menu(TenDangNhap):
 
     # Menu có khung
     print(f"{CYAN}╔════════════════════════════╗{RESET}")
-    print(f"{CYAN}║        MENU NGƯỜI MUA       ║{RESET}")
+    print(f"{CYAN}║        MENU NGƯỜI MUA      ║{RESET}")
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
     print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm")
