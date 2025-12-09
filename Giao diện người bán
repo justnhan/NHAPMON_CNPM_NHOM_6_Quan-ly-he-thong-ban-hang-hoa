@@ -29,7 +29,37 @@ def xoa_san_pham():
         print(f"Đã xóa sản phẩm {sp['ten']}")
     else:
         print("Số thứ tự không hợp lệ!")
+# ---------------- GIAO DIỆN NGƯỜI MUA ----------------
 
+def mua_hang():
+    hien_thi()
+    if not san_pham:
+        return
+    
+    idx = int(input("Nhập số thứ tự sản phẩm muốn mua: "))
+    if 1 <= idx <= len(san_pham):
+        sp = san_pham[idx - 1]
+        print(f"Bạn đã mua: {sp['ten']} với giá {sp['gia']} VND")
+    else:
+        print("Số thứ tự không hợp lệ!")
+#--------------- GIAO DIỆN NGƯỜI MUA ------------------
+def giao_dien_nguoi_mua():
+    while True:
+        print("\n=== Giao diện người mua ===")
+        print("1. Xem sản phẩm")
+        print("2. Mua sản phẩm")
+        print("3. Quay lại")
+
+        choice = input("Chọn chức năng: ")
+
+        if choice == "1":
+            hien_thi()
+        elif choice == "2":
+            mua_hang()
+        elif choice == "3":
+            break
+        else:
+            print("Chọn sai, thử lại!")
 # Menu terminal
 while True:
     print("\n=== Giao diện người bán ===")
