@@ -60,6 +60,7 @@ def giao_dien_nguoi_mua():
             break
         else:
             print("Chọn sai, thử lại!")
+
 # Menu terminal
 while True:
     print("\n=== Giao diện người bán ===")

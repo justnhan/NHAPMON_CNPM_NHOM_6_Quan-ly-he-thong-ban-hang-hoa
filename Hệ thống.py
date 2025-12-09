@@ -69,6 +69,12 @@ if os.path.exists(DATA_FILE):
 
 else:
     users = {}
+
+def save_users():
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(users, f, ensure_ascii=False, indent=4)
+
+
 def register():
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
 
@@ -189,6 +195,75 @@ def change_contact(username):
         print("❌ Lựa chọn không hợp lệ!")
 
     save_users()
+PRODUCT_FILE = "products.json"
+
+def load_products():
+    if os.path.exists(PRODUCT_FILE):
+        try:
+            with open(PRODUCT_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File sản phẩm lỗi. Tạo mới...")
+            return {}
+    return {}
+
+def save_products(data):
+    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def add_product(username):
+    print("\n--- THÊM SẢN PHẨM ---")
+    name = input("Tên sản phẩm: ").strip()
+    price = input("Giá: ").strip()
+    quantity = input("Số lượng: ").strip()
+
+    if not name or not price.isdigit() or not quantity.isdigit():
+        print("❌ Giá và số lượng phải là số > 0.")
+        return
+
+    price = int(price)
+    quantity = int(quantity)
+
+    if price <= 0 or quantity <= 0:
+        print("❌ Giá và số lượng phải > 0.")
+        return
+
+    products = load_products()
+
+    if username not in products:
+        products[username] = []
+
+    new_item = {"name": name, "price": price, "quantity": quantity}
+
+    products[username].append(new_item)
+    save_products(products)
+
+    print("✅ Thêm sản phẩm thành công!")
+
+def seller_menu(username):
+    while True:
+        print("\n=== MENU NGƯỜI BÁN ===")
+        print("1. Thêm sản phẩm")
+        print("2. Đổi mật khẩu")
+        print("3. Thay đổi thông tin liên hệ")
+        print("4. Đăng xuất")
+
+        choice = input("Chọn: ").strip()
+
+        if choice == "1":
+            add_product(username)
+        elif choice == "2":
+            change_password(username)
+        elif choice == "3":
+            change_contact(username)
+        elif choice == "4":
+            break
+        else:
+            print("❌ Lựa chọn không hợp lệ!")
+
+def buyer_menu(username):
+    print("\n💬 Chức năng người mua sẽ được cập nhật sau!")
+    input("Nhấn Enter để quay lại menu...")
     
 def main():
     while True:
@@ -214,4 +289,5 @@ def main():
 
 
 if __name__ == "__main__":
+    main()
     main()
