@@ -244,19 +244,22 @@ def seller_menu(username):
     while True:
         print("\n=== MENU NGƯỜI BÁN ===")
         print("1. Thêm sản phẩm")
-        print("2. Đổi mật khẩu")
-        print("3. Thay đổi thông tin liên hệ")
-        print("4. Đăng xuất")
+        print("2. Chỉnh sửa sản phẩm")
+        print("3. Đổi mật khẩu")
+        print("4. Thay đổi thông tin liên hệ")
+        print("5. Đăng xuất")
 
         choice = input("Chọn: ").strip()
 
         if choice == "1":
             add_product(username)
         elif choice == "2":
-            change_password(username)
+            edit_product(username)
         elif choice == "3":
-            change_contact(username)
+            change_password(username)
         elif choice == "4":
+            change_contact(username)
+        elif choice == "5":
             break
         else:
             print("❌ Lựa chọn không hợp lệ!")
@@ -264,6 +267,70 @@ def seller_menu(username):
 def buyer_menu(username):
     print("\n💬 Chức năng người mua sẽ được cập nhật sau!")
     input("Nhấn Enter để quay lại menu...")
+
+def edit_product(username):
+    print("\n--- CHỈNH SỬA SẢN PHẨM ---")
+
+    products = load_products()
+
+    # Kiểm tra seller có sản phẩm hay chưa
+    if username not in products or len(products[username]) == 0:
+        print("❌ Bạn chưa có sản phẩm nào để sửa!")
+        return
+
+    # Hiển thị danh sách sản phẩm với ID
+    print("\nDanh sách sản phẩm:")
+    for idx, item in enumerate(products[username]):
+        print(f"{idx}. {item['name']} - Giá: {item['price']} - SL: {item['quantity']}")
+
+    # Nhập ID sản phẩm
+    try:
+        product_id = int(input("\nNhập ID sản phẩm cần sửa: ").strip())
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    # Kiểm tra ID hợp lệ
+    if product_id < 0 or product_id >= len(products[username]):
+        print("❌ Không tồn tại sản phẩm này!")
+        return
+
+    sp = products[username][product_id]
+
+    print("\n--- Thông tin cũ ---")
+    print(f"Tên hiện tại: {sp['name']}")
+    print(f"Giá hiện tại: {sp['price']}")
+    print(f"Số lượng hiện tại: {sp['quantity']}")
+
+    print("\nNhấn Enter để giữ nguyên giá trị cũ.")
+
+    # Nhập dữ liệu mới
+    new_name = input("Tên mới: ").strip()
+    new_price = input("Giá mới: ").strip()
+    new_quantity = input("Số lượng mới: ").strip()
+
+    # Xử lý tên
+    if new_name != "":
+        sp["name"] = new_name
+
+    # Xử lý giá
+    if new_price != "":
+        if not new_price.isdigit() or int(new_price) <= 0:
+            print("❌ Giá phải là số > 0")
+            return
+        sp["price"] = int(new_price)
+
+    # Xử lý số lượng
+    if new_quantity != "":
+        if not new_quantity.isdigit() or int(new_quantity) <= 0:
+            print("❌ Số lượng phải là số > 0")
+            return
+        sp["quantity"] = int(new_quantity)
+
+    # Lưu file
+    save_products(products)
+
+    print("✅ Cập nhật sản phẩm thành công!")
     
 def main():
     while True:
