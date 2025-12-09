@@ -70,6 +70,72 @@ def login():
         buyer_menu(username)
     else:
         seller_menu(username)
+#   THAY ĐỔI THÔNG TIN
+def change_password(username):
+    print("\n--- ĐỔI MẬT KHẨU ---")
+    old = input("Mật khẩu cũ: ").strip()
+
+    if old != users[username]["password"]:
+        print("❌ Sai mật khẩu cũ!")
+        return
+
+    new = input("Mật khẩu mới: ").strip()
+    rep = input("Nhập lại mật khẩu mới: ").strip()
+
+    if new != rep:
+        print("❌ Mật khẩu không trùng khớp!")
+        return
+
+    users[username]["password"] = new
+    save_users()
+    print("✅ Đổi mật khẩu thành công!")
+
+
+def forgot_password():
+    print("\n--- QUÊN MẬT KHẨU ---")
+    username = input("Nhập tên tài khoản: ").strip()
+
+    if username not in users:
+        print("❌ Không tồn tại tài khoản này!")
+        return
+
+    phone = input("Nhập số điện thoại đã đăng ký: ").strip()
+
+    if phone != users[username]["phone"]:
+        print("❌ Số điện thoại không khớp!")
+        return
+
+    newpass = input("Nhập mật khẩu mới: ").strip()
+    rep = input("Nhập lại mật khẩu mới: ").strip()
+
+    if newpass != rep:
+        print("❌ Mật khẩu không khớp!")
+        return
+
+    users[username]["password"] = newpass
+    save_users()
+    print("✅ Khôi phục mật khẩu thành công!")
+
+
+def change_contact(username):
+    print("\n--- THAY ĐỔI THÔNG TIN LIÊN HỆ ---")
+    print("1. Thay đổi email")
+    print("2. Thay đổi số điện thoại")
+    choice = input("Chọn: ").strip()
+
+    if choice == "1":
+        new_email = input("Nhập email mới: ").strip()
+        users[username]["email"] = new_email
+        print("✅ Đổi email thành công!")
+    elif choice == "2":
+        new_phone = input("Nhập số điện thoại mới: ").strip()
+        users[username]["phone"] = new_phone
+        print("✅ Đổi số điện thoại thành công!")
+    else:
+        print("❌ Lựa chọn không hợp lệ!")
+
+    save_users()
+    
 def main():
     while True:
         print("\n=== MENU CHÍNH ===")
