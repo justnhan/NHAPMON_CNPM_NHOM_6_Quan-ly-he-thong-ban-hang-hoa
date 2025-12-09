@@ -1,3 +1,20 @@
+import json
+import os
+
+DATA_FILE = "users.json"
+
+# --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
+if os.path.exists(DATA_FILE):
+    try:
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            users = json.load(f)
+    except Exception as e:
+        print("LỖI LOAD JSON:", e)
+        print("→ File users.json có vấn đề, hệ thống sẽ bỏ qua và dùng dữ liệu rỗng.")
+        users = {}
+
+else:
+    users = {}
 def register():
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
 
@@ -22,6 +39,18 @@ def register():
     role_choice = input("Chọn (1/2): ").strip()
 
     role = "seller" if role_choice == "1" else "buyer"
+
+    # Lưu dữ liệu
+    users[username] = {
+        "password": password,
+        "email": email,
+        "phone": phone,
+        "role": role
+    }
+
+    save_users()
+    print("✅ Đăng ký thành công!")
+
 def login():
     print("\n--- ĐĂNG NHẬP ---")
     username = input("Tên tài khoản: ").strip()
