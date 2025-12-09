@@ -55,7 +55,40 @@ def seller_menu(TenDangNhap):
     print("\nBạn muốn làm gì?")
     choice = input("Chọn chức năng: ")
     return choice
-    
+
+
+
+def view_products_seller(username):
+    # Màu ANSI
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    RESET = "\033[0m"
+
+    print(f"\n{CYAN}====== ĐÂY LÀ DANH SÁCH SẢN PHẨM CỦA BẠN ======{RESET}\n")
+
+    # Kiểm tra có sản phẩm không
+    if username not in products or len(products[username]) == 0:
+        print(f"{RED}❌ Bạn chưa có sản phẩm nào.{RESET}")
+        return
+
+    # Header
+    print(f"{YELLOW}{'-'*60}{RESET}")
+    print(f"{GREEN}{'ID':<5} {'Tên sản phẩm':<25} {'Giá':<12} {'Số lượng':<10}{RESET}")
+    print(f"{YELLOW}{'-'*60}{RESET}")
+
+    # In sản phẩm
+    for idx, item in enumerate(products[username], start=1):
+        name = item.get("name", "Không tên")
+        price = item.get("price", 0)
+        qty = item.get("quantity", 0)
+
+        print(f"{idx:<5} {name:<25} {price:<12} {qty:<10}")
+
+    print(f"{YELLOW}{'-'*60}{RESET}")
+
+
 
 # --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
 if os.path.exists(DATA_FILE):
