@@ -1,8 +1,14 @@
 import json
 import os
 
-DATA_FILE = "users.json"
+#Cấu trúc lưu trữ dữ liệu
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
+DATA_FILE = os.path.join(BASE_DIR, "users.json")       # users.json nằm cùng thư mục
+PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")       # products.json nằm cùng thư mục
 
+
+# CÁC HÀM ĐƯỢC SỬ DỤNG
+#---------------------------------------------------------------------------------------------
 def buyer_giaodien(TenDangNhap):
     
     # Màu sắc
@@ -10,6 +16,7 @@ def buyer_giaodien(TenDangNhap):
     YELLOW = "\033[93m"
     RESET = "\033[0m"
 
+    
     # Lời chào (không khung)
     print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
     print("Chúc bạn một ngày tốt lành!\n")
@@ -105,6 +112,8 @@ def view_products_seller(username):
     YELLOW = "\033[93m"
     RED = "\033[91m"
     RESET = "\033[0m"
+
+    products = load_products()
 
     print(f"\n{CYAN}====== ĐÂY LÀ DANH SÁCH SẢN PHẨM CỦA BẠN ======{RESET}\n")
 
@@ -268,7 +277,7 @@ def change_contact(username):
         print("❌ Lựa chọn không hợp lệ!")
 
     save_users()
-PRODUCT_FILE = "products.json"
+
 
 def load_products():
     if os.path.exists(PRODUCT_FILE):
