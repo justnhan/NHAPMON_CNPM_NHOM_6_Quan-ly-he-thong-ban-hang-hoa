@@ -3,7 +3,7 @@ import os
 
 DATA_FILE = "users.json"
 
-def buyer_menu(TenDangNhap):
+def buyer_giaodien(TenDangNhap):
     
     # Màu sắc
     CYAN = "\033[96m"
@@ -13,13 +13,14 @@ def buyer_menu(TenDangNhap):
     # Lời chào (không khung)
     print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
     print("Chúc bạn một ngày tốt lành!\n")
+    print("\n--CHƯA HOÀN THIỆN CHỨC NĂNG--")
 
     # Menu có khung
     print(f"{CYAN}╔════════════════════════════╗{RESET}")
     print(f"{CYAN}║        MENU NGƯỜI MUA      ║{RESET}")
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
-    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm")
+    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm (Đề xuất)")
     print(f"{YELLOW}2.{RESET} Tìm kiếm sản phẩm")
     print(f"{YELLOW}3.{RESET} Xem giỏ hàng")
     print(f"{YELLOW}4.{RESET} Xem đơn hàng đã mua")
@@ -29,7 +30,26 @@ def buyer_menu(TenDangNhap):
     choice = input("Chọn chức năng: ")
     return choice
 
-def seller_menu(TenDangNhap):
+def buyer_menu(username):
+    while True:
+        choice = buyer_giaodien(username)   # giữ nguyên hàm này
+        if choice == "1":
+            print("Bạn đã chọn: Xem danh sách sản phẩm - chưa hoàn thiện")
+            # gọi hàm tương ứng
+        elif choice == "2":
+            print("Bạn đã chọn: Tìm kiếm sản phẩm - chưa hoàn thiện")
+        elif choice == "3":
+            print("Bạn đã chọn: Xem giỏ hàng - chưa hoàn thiện")
+        elif choice == "4":
+            print("Bạn đã chọn: Xem đơn hàng đã mua - chưa hoàn thiện")
+        elif choice == "0":
+            print("Đăng xuất...")
+            break
+        else:
+            print("❌ Lựa chọn không hợp lệ!")
+
+
+def seller_giaodien(TenDangNhap):
 
     # Màu sắc
     CYAN = "\033[96m"
@@ -45,7 +65,7 @@ def seller_menu(TenDangNhap):
     print(f"{CYAN}║        MENU NGƯỜI BÁN      ║{RESET}")
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
-    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm của bạn")
+    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm của SHOP")
     print(f"{YELLOW}2.{RESET} Thêm sản phẩm mới")
     print(f"{YELLOW}3.{RESET} Sửa thông tin sản phẩm")
     print(f"{YELLOW}4.{RESET} Xóa sản phẩm")
@@ -55,6 +75,26 @@ def seller_menu(TenDangNhap):
     print("\nBạn muốn làm gì?")
     choice = input("Chọn chức năng: ")
     return choice
+
+def seller_menu(username):
+    while True:
+        choice = seller_giaodien(username)
+        if choice == "1":
+            view_products_seller(username)
+        elif choice == "2":
+            add_product(username)
+        elif choice == "3":
+            edit_product(username)
+        elif choice == "4":
+            print("Xóa sản phẩm - chưa hoàn thiện")
+        elif choice == "5":
+            print("Xem đơn hàng - chưa hoàn thiện")
+        elif choice == "0":
+            print("Đăng xuất...")
+            break
+        else:
+            print("❌ Lựa chọn không hợp lệ!")
+
 
 
 
@@ -384,4 +424,4 @@ def xem_danh_sach_nguoi_dung():
 
 if __name__ == "__main__":
     main()
-    main()
+
