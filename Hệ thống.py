@@ -402,6 +402,7 @@ def show_logo():
 
 def main():
     while True:
+        show_logo()
         # Màu ANSI
         CYAN = "\033[96m"
         GREEN = "\033[92m"
