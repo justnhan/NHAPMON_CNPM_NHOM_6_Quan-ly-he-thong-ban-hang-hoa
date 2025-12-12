@@ -643,6 +643,20 @@ def view_cart(username):
         return
 
     total = 0
+    print("\nID | Tên sản phẩm | Giá | Số lượng | Thành tiền")
+    print("-" * 60)
+
+    for idx, item in enumerate(cart[username]):
+        name = item["name"]
+        price = item["price"]
+        qty = item["quantity"]
+        money = price * qty
+        total += money
+
+        print(f"{idx:<3} {name:<20} {price:<10} {qty:<10} {money}")
+
+    print("-" * 60)
+    print(f"💰 Tổng tiền tạm tính: {total} VND")
     
 if __name__ == "__main__":
     main()
