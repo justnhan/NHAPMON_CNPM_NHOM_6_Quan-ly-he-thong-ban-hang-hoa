@@ -682,6 +682,23 @@ def view_cart(username):
         cart[username][pid]["quantity"] = int(new_qty)
         save_cart(cart)
         print("✅ Cập nhật số lượng thành công!")
+    elif choice == "2":
+        try:
+            pid = int(input("Nhập ID sản phẩm cần xóa: "))
+            if pid < 0 or pid >= len(cart[username]):
+                print("❌ ID không hợp lệ!")
+                return
+        except:
+            print("❌ ID không hợp lệ!")
+            return
+
+        del cart[username][pid]
+        save_cart(cart)
+
+        print("✅ Đã xóa sản phẩm khỏi giỏ!")
+
+    else:
+        print("↩ Trở lại menu.")
 
     choice = input("Chọn: ")
 if __name__ == "__main__":
