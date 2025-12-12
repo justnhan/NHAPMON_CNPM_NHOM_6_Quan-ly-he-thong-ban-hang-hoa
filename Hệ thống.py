@@ -628,6 +628,9 @@ def load_cart():
             print("⚠️ File giỏ hàng lỗi. Tạo mới...")
             return {}
     return {}
+def save_cart(data):
+    with open(CART_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     main()
