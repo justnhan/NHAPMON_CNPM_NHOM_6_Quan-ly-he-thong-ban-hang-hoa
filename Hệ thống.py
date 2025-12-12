@@ -617,6 +617,17 @@ def delete_product(username):
 
     print("✅ Xóa sản phẩm thành công!")
 
+CART_FILE = os.path.join(BASE_DIR, "cart.json")
+
+def load_cart():
+    if os.path.exists(CART_FILE):
+        try:
+            with open(CART_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File giỏ hàng lỗi. Tạo mới...")
+            return {}
+    return {}
 
 if __name__ == "__main__":
     main()
