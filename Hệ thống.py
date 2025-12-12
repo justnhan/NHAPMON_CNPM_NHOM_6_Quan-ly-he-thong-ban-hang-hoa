@@ -93,7 +93,7 @@ def seller_menu(username):
         elif choice == "3":
             edit_product(username)
         elif choice == "4":
-            print("Xóa sản phẩm - chưa hoàn thiện")
+            delete_product(username)
         elif choice == "5":
             print("Xem đơn hàng - chưa hoàn thiện")
         elif choice == "0":
@@ -467,7 +467,51 @@ def xem_danh_sach_nguoi_dung():
         print(f"  SĐT      : {info['phone']}")
         print(f"  Vai trò  : {info['role']}")
         print("----------------------------------")
+def delete_product(username):
+    print("\n--- XÓA SẢN PHẨM ---")
 
+    products = load_products()
+
+    # 1. Kiểm tra seller có sản phẩm không
+    if username not in products or len(products[username]) == 0:
+        print("❌ Bạn không có sản phẩm nào để xóa!")
+        return
+
+    # 2. Hiển thị danh sách sản phẩm kèm ID
+    print("\nDanh sách sản phẩm:")
+    for idx, item in enumerate(products[username]):
+        print(f"{idx}. {item['name']} - Giá: {item['price']} - SL: {item['quantity']}")
+
+    # 3. Nhập ID sản phẩm cần xóa
+    try:
+        product_id = int(input("\nNhập ID sản phẩm cần xóa: ").strip())
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    # 4. Kiểm tra ID có hợp lệ không
+    if product_id < 0 or product_id >= len(products[username]):
+        print("❌ Không tồn tại sản phẩm này!")
+        return
+
+    sp = products[username][product_id]
+
+    # 5. Xác nhận xóa
+    print(f"\nBạn có chắc chắn muốn xóa sản phẩm:")
+    print(f"➡ {sp['name']} (Giá: {sp['price']}, SL: {sp['quantity']})")
+    confirm = input("Nhập 'YES' để xác nhận xóa: ").strip()
+
+    if confirm != "YES":
+        print("⛔ Hủy thao tác xóa.")
+        return
+
+    # 6. Xóa sản phẩm
+    del products[username][product_id]
+
+    # 7. Cập nhật file
+    save_products(products)
+
+    print("✅ Xóa sản phẩm thành công!")
 
 
 if __name__ == "__main__":
