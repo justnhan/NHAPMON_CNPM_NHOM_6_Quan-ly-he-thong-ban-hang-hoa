@@ -137,6 +137,9 @@ def view_products_seller(username):
 
     print(f"{YELLOW}{'-'*60}{RESET}")
 
+def save_users():
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(users, f, ensure_ascii=False, indent=4)
 
 
 # --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
@@ -151,10 +154,53 @@ if os.path.exists(DATA_FILE):
 
 else:
     users = {}
+# --- TẠO ADMIN MẶC ĐỊNH ---
+if "admin" not in users:
+    users["admin"] = {
+        "password": "admin123",
+        "email": "admin@gmail.com",
+        "phone": "0000000000",
+        "role": "admin"
+    }
+    save_users()
 
-def save_users():
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(users, f, ensure_ascii=False, indent=4)
+def admin_giaodien():
+    CYAN = "\033[96m"
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
+
+    print(f"\n{CYAN}╔════════════════════════════╗{RESET}")
+    print(f"{CYAN}║        MENU ADMIN          ║{RESET}")
+    print(f"{CYAN}╚════════════════════════════╝{RESET}")
+
+    print(f"{YELLOW}1.{RESET} Hiển thị tất cả người bán")
+    print(f"{YELLOW}2.{RESET} Hiển thị tất cả người mua")
+    print(f"{YELLOW}3.{RESET} Hiển thị tất cả sản phẩm")
+    print(f"{YELLOW}4.{RESET} Xóa tài khoản người bán")
+    print(f"{YELLOW}5.{RESET} Xóa tài khoản người mua")
+    print(f"{YELLOW}0.{RESET} Đăng xuất")
+
+    return input("Chọn chức năng: ")
+
+def admin_menu(username):
+    while True:
+        choice = admin_giaodien()
+
+        if choice == "1":
+            show_sellers()
+        elif choice == "2":
+            show_buyers()
+        elif choice == "3":
+            show_all_products()
+        elif choice == "4":
+            delete_user_by_role("seller")
+        elif choice == "5":
+            delete_user_by_role("buyer")
+        elif choice == "0":
+            print("Đăng xuất...")
+            break
+        else:
+            print("❌ Lựa chọn không hợp lệ!")
 
 
 def register():
@@ -208,10 +254,15 @@ def login():
 
     print("✅ Đăng nhập thành công!")
 
-    if users[username]["role"] == "buyer":
+    role = users[username]["role"]
+
+    if role == "buyer":
         buyer_menu(username)
-    else:
+    elif role == "seller":
         seller_menu(username)
+    elif role == "admin":
+        admin_menu(username)
+
 #   THAY ĐỔI THÔNG TIN
 def change_password(username):
     print("\n--- ĐỔI MẬT KHẨU ---")
@@ -449,24 +500,70 @@ def main():
         else:
             print("❌ Lựa chọn không hợp lệ!")
 
-def xem_danh_sach_nguoi_dung():
-    CYAN = "\033[96m"
-    RESET = "\033[0m"
-    YELLOW = "\033[93m"
+def show_sellers():
+    print("\n--- DANH SÁCH NGƯỜI BÁN ---")
+    sellers = [u for u, info in users.items() if info["role"] == "seller"]
 
-    if not users:
-        print("\n⚠️ Hiện chưa có tài khoản nào trong hệ thống.")
+    if not sellers:
+        print("⚠️ Không có người bán nào.")
         return
 
-    print(f"\n{CYAN}======= DANH SÁCH NGƯỜI DÙNG ========{RESET}")
+    for s in sellers:
+        print(f"- {s}")
 
-    for username, info in users.items():
-        print(f"{YELLOW}• Tên tài khoản:{RESET} {username}")
-        print(f"  Mật khẩu : {info['password']}")
-        print(f"  Email    : {info['email']}")
-        print(f"  SĐT      : {info['phone']}")
-        print(f"  Vai trò  : {info['role']}")
-        print("----------------------------------")
+def show_buyers():
+    print("\n--- DANH SÁCH NGƯỜI MUA ---")
+    buyers = [u for u, info in users.items() if info["role"] == "buyer"]
+
+    if not buyers:
+        print("⚠️ Không có người mua nào.")
+        return
+
+    for b in buyers:
+        print(f"- {b}")
+
+def show_all_products():
+    products = load_products()
+
+    print("\n--- TẤT CẢ SẢN PHẨM TRONG HỆ THỐNG ---")
+
+    if not products:
+        print("⚠️ Chưa có sản phẩm nào.")
+        return
+
+    for seller, plist in products.items():
+        print(f"\n🔹 Người bán: {seller}")
+        if not plist:
+            print("   (Không có sản phẩm)")
+            continue
+        for p in plist:
+            print(f"   - {p['name']} | Giá: {p['price']} | SL: {p['quantity']}")
+def delete_user_by_role(role):
+    print(f"\n--- DANH SÁCH {role.upper()} ---")
+    ds = [u for u, info in users.items() if info["role"] == role]
+
+    if not ds:
+        print("⚠️ Không có tài khoản nào.")
+        return
+
+    for i, u in enumerate(ds):
+        print(f"{i}. {u}")
+
+    try:
+        idx = int(input("\nNhập ID muốn xóa: ").strip())
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    if idx < 0 or idx >= len(ds):
+        print("❌ Không tồn tại ID này!")
+        return
+
+    user_delete = ds[idx]
+    del users[user_delete]
+    save_users()
+
+    print(f"✅ Đã xóa: {user_delete}")
 
 
 
