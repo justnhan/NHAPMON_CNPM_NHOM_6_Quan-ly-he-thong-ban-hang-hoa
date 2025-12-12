@@ -632,6 +632,18 @@ def save_cart(data):
     with open(CART_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+def view_cart(username):
+    cart = load_cart()
+
+    print("\n=== GIỎ HÀNG CỦA BẠN ===")
+
+    # 1. Giỏ hàng trống
+    if username not in cart or len(cart[username]) == 0:
+        print("🛒 Giỏ hàng trống!")
+        return
+
+    total = 0
+    
 if __name__ == "__main__":
     main()
 
