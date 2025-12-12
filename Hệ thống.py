@@ -46,7 +46,7 @@ def buyer_menu(username):
         elif choice == "2":
             print("Bạn đã chọn: Tìm kiếm sản phẩm - chưa hoàn thiện")
         elif choice == "3":
-            print("Bạn đã chọn: Xem giỏ hàng - chưa hoàn thiện")
+            view_cart(username)
         elif choice == "4":
             print("Bạn đã chọn: Xem đơn hàng đã mua - chưa hoàn thiện")
         elif choice == "0":
