@@ -658,6 +658,12 @@ def view_cart(username):
     print("-" * 60)
     print(f"💰 Tổng tiền tạm tính: {total} VND")
     
+    print("\nBạn muốn làm gì?")
+    print("1. Thay đổi số lượng")
+    print("2. Xóa sản phẩm")
+    print("0. Thoát")
+
+    choice = input("Chọn: ")
 if __name__ == "__main__":
     main()
 
