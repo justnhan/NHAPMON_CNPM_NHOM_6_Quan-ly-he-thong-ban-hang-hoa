@@ -617,7 +617,33 @@ def delete_product(username):
 
     print("✅ Xóa sản phẩm thành công!")
 
+CART_FILE = os.path.join(BASE_DIR, "cart.json")
 
+def load_cart():
+    if os.path.exists(CART_FILE):
+        try:
+            with open(CART_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File giỏ hàng lỗi. Tạo mới...")
+            return {}
+    return {}
+def save_cart(data):
+    with open(CART_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def view_cart(username):
+    cart = load_cart()
+
+    print("\n=== GIỎ HÀNG CỦA BẠN ===")
+
+    # 1. Giỏ hàng trống
+    if username not in cart or len(cart[username]) == 0:
+        print("🛒 Giỏ hàng trống!")
+        return
+
+    total = 0
+    
 if __name__ == "__main__":
     main()
 
