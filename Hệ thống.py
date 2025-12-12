@@ -662,6 +662,26 @@ def view_cart(username):
     print("1. Thay đổi số lượng")
     print("2. Xóa sản phẩm")
     print("0. Thoát")
+    
+    if choice == "1":
+        try:
+            pid = int(input("Nhập ID sản phẩm: "))
+            if pid < 0 or pid >= len(cart[username]):
+                print("❌ ID không hợp lệ!")
+                return
+        except:
+            print("❌ ID không hợp lệ!")
+            return
+
+        new_qty = input("Nhập số lượng mới: ")
+
+        if not new_qty.isdigit() or int(new_qty) <= 0:
+            print("❌ Số lượng phải là số > 0")
+            return
+
+        cart[username][pid]["quantity"] = int(new_qty)
+        save_cart(cart)
+        print("✅ Cập nhật số lượng thành công!")
 
     choice = input("Chọn: ")
 if __name__ == "__main__":
