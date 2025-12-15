@@ -701,6 +701,39 @@ def view_cart(username):
         print("↩ Trở lại menu.")
 
     choice = input("Chọn: ")
+
+def search_product():
+    products = load_products()
+
+    keyword = input("\n🔍 Nhập từ khóa tìm kiếm: ").strip().lower()
+
+    if keyword == "":
+        print("❌ Từ khóa không được để trống!")
+        return
+
+    found = False
+
+    print("\n=== KẾT QUẢ TÌM KIẾM ===")
+    print("-" * 70)
+    print(f"{'Tên SP':<20} {'Giá':<10} {'SL':<8} {'Người bán':<15}")
+    print("-" * 70)
+
+    for seller, plist in products.items():
+        for item in plist:
+            if keyword in item["name"].lower():
+                found = True
+                print(
+                    f"{item['name']:<20} "
+                    f"{item['price']:<10} "
+                    f"{item['quantity']:<8} "
+                    f"{seller:<15}"
+                )
+
+    print("-" * 70)
+
+    if not found:
+        print("❌ Không tìm thấy sản phẩm phù hợp!")
+
 if __name__ == "__main__":
     main()
 

@@ -16,5 +16,11 @@
         "email": "admin@gmail.com",
         "phone": "0000000000",
         "role": "admin"
+    },
+    "123": {
+        "password": "123",
+        "email": "123",
+        "phone": "123",
+        "role": "buyer"
     }
 }
