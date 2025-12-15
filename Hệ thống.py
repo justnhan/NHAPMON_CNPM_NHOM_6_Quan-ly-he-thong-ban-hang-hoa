@@ -44,7 +44,7 @@ def buyer_menu(username):
             print("Bạn đã chọn: Xem danh sách sản phẩm - chưa hoàn thiện")
             # gọi hàm tương ứng
         elif choice == "2":
-            print("Bạn đã chọn: Tìm kiếm sản phẩm - chưa hoàn thiện")
+            search_product()
         elif choice == "3":
             view_cart(username)
         elif choice == "4":
