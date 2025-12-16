@@ -89,7 +89,7 @@ def view_cart(username):
 
     choice = input("Chọn: ")
 
-    def add_to_cart(buyer_username, seller_username):
+def add_to_cart(buyer_username, seller_username):
     products = load_products()
     cart = load_cart()
 
