@@ -89,34 +89,39 @@ def view_cart(username):
 
     choice = input("Chọn: ")
 
-def add_to_cart(buyer_username, seller_username):
+def add_to_cart(username):
     products = load_products()
     cart = load_cart()
 
-    # 1. Kiểm tra seller có sản phẩm không
-    if seller_username not in products or len(products[seller_username]) == 0:
-        print("❌ Người bán chưa có sản phẩm nào!")
+    # 1. Kiểm tra có sản phẩm không
+    if not products:
+        print("❌ Hiện chưa có sản phẩm nào!")
         return
 
-    # 2. Hiển thị sản phẩm của seller
+    # 2. Hiển thị toàn bộ sản phẩm
+    all_products = []
     print("\n=== DANH SÁCH SẢN PHẨM ===")
-    print("ID | Tên sản phẩm | Giá | Số lượng còn")
+    print("ID | Tên sản phẩm | Giá | Số lượng")
     print("-" * 50)
 
-    for idx, item in enumerate(products[seller_username]):
-        print(f"{idx:<3} {item['name']:<15} {item['price']:<10} {item['quantity']}")
+    idx = 0
+    for seller, items in products.items():
+        for item in items:
+            print(f"{idx:<3} {item['name']:<15} {item['price']:<10} {item['quantity']}")
+            all_products.append(item)
+            idx += 1
 
     # 3. Nhập ID sản phẩm
     try:
         pid = int(input("\nNhập ID sản phẩm cần thêm: "))
-        if pid < 0 or pid >= len(products[seller_username]):
+        if pid < 0 or pid >= len(all_products):
             print("❌ ID sản phẩm không hợp lệ!")
             return
     except:
         print("❌ ID sản phẩm không hợp lệ!")
         return
 
-    product = products[seller_username][pid]
+    product = all_products[pid]
 
     # 4. Nhập số lượng
     qty = input("Nhập số lượng muốn mua: ").strip()
@@ -132,11 +137,11 @@ def add_to_cart(buyer_username, seller_username):
         print("❌ Số lượng vượt quá tồn kho!")
         return
 
-    # 6. Thêm vào giỏ hàng buyer
-    if buyer_username not in cart:
-        cart[buyer_username] = []
+    # 6. Thêm vào giỏ hàng
+    if username not in cart:
+        cart[username] = []
 
-    cart[buyer_username].append({
+    cart[username].append({
         "name": product["name"],
         "price": product["price"],
         "quantity": qty
@@ -147,4 +152,4 @@ def add_to_cart(buyer_username, seller_username):
     print("✅ Đã thêm sản phẩm vào giỏ hàng!")
 
     # 7. Hiển thị lại giỏ hàng
-    view_cart(buyer_username)
+    view_cart(username)
