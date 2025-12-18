@@ -45,6 +45,7 @@ def buyer_giaodien():
     print(f"{YELLOW}2.{RESET} Tìm kiếm sản phẩm")
     print(f"{YELLOW}3.{RESET} Xem giỏ hàng")
     print(f"{YELLOW}4.{RESET} Xem đơn hàng đã mua")
+    print(f"{YELLOW}5.{RESET} Thêm sản phẩm vào giỏ hàng")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -64,7 +65,7 @@ def seller_giaodien():
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
     print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm của SHOP")
-    print(f"{YELLOW}2.{RESET} Thêm sản phẩm mới")
+    print(f"{YELLOW}2.{RESET} Tìm để thêm sản phẩm mới")
     print(f"{YELLOW}3.{RESET} Sửa thông tin sản phẩm")
     print(f"{YELLOW}4.{RESET} Xóa sản phẩm")
     print(f"{YELLOW}5.{RESET} Xem đơn hàng của cửa hàng")
@@ -80,13 +81,19 @@ def buyer_menu(username):
         choice = buyer_giaodien()   # giữ nguyên hàm này
         if choice == "1":
             print("Bạn đã chọn: Xem danh sách sản phẩm - chưa hoàn thiện")
+            tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
-            search_product()
+            print("Bạn đã chọn: Tìm kiếm sản phẩm - chưa hoàn thiện")
         elif choice == "3":
             view_cart(username)
+            tiep_tuc()
         elif choice == "4":
             print("Bạn đã chọn: Xem đơn hàng đã mua - chưa hoàn thiện")
+            tiep_tuc()
+        elif choice == "5":
+            add_to_cart(username)
+            tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
             break
@@ -99,14 +106,19 @@ def seller_menu(username):
         choice = seller_giaodien()
         if choice == "1":
             view_products_seller(username)
+            tiep_tuc()
         elif choice == "2":
             add_product(username)
+            tiep_tuc()
         elif choice == "3":
             edit_product(username)
+            tiep_tuc()
         elif choice == "4":
             delete_product(username)
+            tiep_tuc()
         elif choice == "5":
             print("Xem đơn hàng - chưa hoàn thiện")
+            tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
             break
@@ -152,3 +164,6 @@ def admin_menu(username):
             break
         else:
             print("❌ Lựa chọn không hợp lệ!")
+
+def tiep_tuc():
+    input("\nNhấn Enter để tiếp tục:")
