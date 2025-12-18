@@ -290,3 +290,20 @@ def search_product (username):
     print("✅ Đã thêm sản phẩm vào giỏ!")
 
     view_cart(username)
+
+# load & save đơn hàng
+def load_orders():
+    if os.path.exists(ORDER_FILE):
+        try:
+            with open(ORDER_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File đơn hàng lỗi. Tạo mới...")
+            return {}
+    return {}
+
+def save_orders(data):
+    with open(ORDER_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+
