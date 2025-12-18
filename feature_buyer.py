@@ -5,6 +5,19 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file 
 
 CART_FILE = os.path.join(BASE_DIR, "cart.json")  # cart.json nằm cùng thư mục
 
+PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")     # products.json nằm cùng thư mục
+
+# ------- Hàm tải dữ liệu Sản phẩm -------
+def load_products():
+    if os.path.exists(PRODUCT_FILE):
+        try:
+            with open(PRODUCT_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File sản phẩm lỗi. Tạo mới...")
+            return {}
+    return {}
+
 # ------- Hàm tải dữ liệu Giỏ hàng -------
 def load_cart():
     if os.path.exists(CART_FILE):
@@ -24,14 +37,18 @@ def view_cart(username):
 
     print("\n=== GIỎ HÀNG CỦA BẠN ===")
 
-    # 1. Giỏ hàng trống
     if username not in cart or len(cart[username]) == 0:
         print("🛒 Giỏ hàng trống!")
         return
 
+    # 🔹 Tính độ rộng cột tên sản phẩm
+    name_width = max(len(item["name"]) for item in cart[username])
+    name_width = max(name_width, 20)  # tối thiểu 20 ký tự
+
     total = 0
-    print("\nID | Tên sản phẩm | Giá | Số lượng | Thành tiền")
-    print("-" * 60)
+
+    print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'SL':<5} {'Thành tiền'}")
+    print("-" * (name_width + 35))
 
     for idx, item in enumerate(cart[username]):
         name = item["name"]
@@ -40,15 +57,17 @@ def view_cart(username):
         money = price * qty
         total += money
 
-        print(f"{idx:<3} {name:<20} {price:<10} {qty:<10} {money}")
+        print(f"{idx:<3} {name:<{name_width}} {price:<10} {qty:<5} {money}")
 
-    print("-" * 60)
+    print("-" * (name_width + 35))
     print(f"💰 Tổng tiền tạm tính: {total} VND")
     
     print("\nBạn muốn làm gì?")
     print("1. Thay đổi số lượng")
     print("2. Xóa sản phẩm")
     print("0. Thoát")
+
+    choice = input("Chọn: ")
     
     if choice == "1":
         try:
@@ -86,8 +105,7 @@ def view_cart(username):
 
     else:
         print("↩ Trở lại menu.")
-
-    choice = input("Chọn: ")
+        return
 
 def add_to_cart(username):
     products = load_products()
@@ -98,20 +116,36 @@ def add_to_cart(username):
         print("❌ Hiện chưa có sản phẩm nào!")
         return
 
-    # 2. Hiển thị toàn bộ sản phẩm
+    # 2. Gom toàn bộ sản phẩm vào 1 danh sách
     all_products = []
-    print("\n=== DANH SÁCH SẢN PHẨM ===")
-    print("ID | Tên sản phẩm | Giá | Số lượng")
-    print("-" * 50)
-
-    idx = 0
     for seller, items in products.items():
-        for item in items:
-            print(f"{idx:<3} {item['name']:<15} {item['price']:<10} {item['quantity']}")
-            all_products.append(item)
-            idx += 1
+        if isinstance(items, list):
+            for item in items:
+                # đảm bảo item hợp lệ
+                if all(k in item for k in ("name", "price", "quantity")):
+                    all_products.append(item)
 
-    # 3. Nhập ID sản phẩm
+    # Không có sản phẩm hợp lệ
+    if not all_products:
+        print("❌ Không có sản phẩm hợp lệ!")
+        return
+
+    # 3. Tính độ rộng cột tên sản phẩm (an toàn)
+    name_width = max(
+        (len(item["name"]) for item in all_products),
+        default=20
+    )
+    name_width = max(name_width, 20)
+
+    # 4. In danh sách sản phẩm
+    print("\n=== DANH SÁCH SẢN PHẨM ===")
+    print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
+    print("-" * (name_width + 30))
+
+    for idx, item in enumerate(all_products):
+        print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+
+    # 5. Nhập ID sản phẩm
     try:
         pid = int(input("\nNhập ID sản phẩm cần thêm: "))
         if pid < 0 or pid >= len(all_products):
@@ -123,24 +157,33 @@ def add_to_cart(username):
 
     product = all_products[pid]
 
-    # 4. Nhập số lượng
+    # 6. Nhập số lượng
     qty = input("Nhập số lượng muốn mua: ").strip()
-
     if not qty.isdigit() or int(qty) <= 0:
         print("❌ Số lượng phải là số > 0!")
         return
 
     qty = int(qty)
 
-    # 5. Kiểm tra tồn kho
+    # 7. Kiểm tra tồn kho
     if qty > product["quantity"]:
         print("❌ Số lượng vượt quá tồn kho!")
         return
 
-    # 6. Thêm vào giỏ hàng
+    # 8. Tạo giỏ hàng cho user nếu chưa có
     if username not in cart:
         cart[username] = []
 
+    # 9. Nếu sản phẩm đã có trong giỏ → cộng số lượng
+    for item in cart[username]:
+        if item["name"] == product["name"]:
+            item["quantity"] += qty
+            save_cart(cart)
+            print("✅ Đã cập nhật số lượng sản phẩm trong giỏ!")
+            view_cart(username)
+            return
+
+    # 10. Nếu chưa có → thêm mới
     cart[username].append({
         "name": product["name"],
         "price": product["price"],
@@ -148,8 +191,7 @@ def add_to_cart(username):
     })
 
     save_cart(cart)
-
     print("✅ Đã thêm sản phẩm vào giỏ hàng!")
 
-    # 7. Hiển thị lại giỏ hàng
+    # 11. Hiển thị lại giỏ hàng
     view_cart(username)
