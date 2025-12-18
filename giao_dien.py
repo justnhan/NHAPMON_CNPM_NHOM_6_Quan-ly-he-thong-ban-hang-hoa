@@ -84,8 +84,7 @@ def buyer_menu(username):
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
-            search_product(username)
-            tiep_tuc()
+            print("Bạn đã chọn: Tìm kiếm sản phẩm - chưa hoàn thiện")
         elif choice == "3":
             view_cart(username)
             tiep_tuc()
