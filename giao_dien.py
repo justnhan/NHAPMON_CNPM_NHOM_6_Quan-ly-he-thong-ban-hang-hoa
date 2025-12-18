@@ -45,6 +45,7 @@ def buyer_giaodien():
     print(f"{YELLOW}2.{RESET} Tìm kiếm sản phẩm")
     print(f"{YELLOW}3.{RESET} Xem giỏ hàng")
     print(f"{YELLOW}4.{RESET} Xem đơn hàng đã mua")
+    print(f"{YELLOW}5.{RESET} Thêm sản phẩm vào giỏ hàng")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -81,12 +82,14 @@ def buyer_menu(username):
         if choice == "1":
             print("Bạn đã chọn: Xem danh sách sản phẩm - chưa hoàn thiện")
             # gọi hàm tương ứng
-       elif choice == "2":
+        elif choice == "2":
             search_product()
         elif choice == "3":
             view_cart(username)
         elif choice == "4":
             print("Bạn đã chọn: Xem đơn hàng đã mua - chưa hoàn thiện")
+        elif choice == "5":
+            add_to_cart(username)
         elif choice == "0":
             print("Đăng xuất...")
             break
