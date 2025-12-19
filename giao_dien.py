@@ -1,5 +1,6 @@
 from feature_seller import *
 from feature_buyer import *
+from feature_order_buyer import *
 
 # --- Hàm giao diện người mua và người bán ---
 
@@ -90,7 +91,7 @@ def buyer_menu(username):
             view_cart(username)
             tiep_tuc()
         elif choice == "4":
-            print("Bạn đã chọn: Xem đơn hàng đã mua - chưa hoàn thiện")
+            view_order_history(username)
             tiep_tuc()
         elif choice == "5":
             add_to_cart(username)
