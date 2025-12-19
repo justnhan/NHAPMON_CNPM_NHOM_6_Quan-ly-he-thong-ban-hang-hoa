@@ -15,3 +15,6 @@ def load_orders():
             print("⚠️ File đơn hàng lỗi. Tạo mới...")
             return {}
     return {}
+def save_orders(data):
+    with open(ORDER_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
