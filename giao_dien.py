@@ -84,7 +84,7 @@ def buyer_menu(username):
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
-            search_product()
+            search_product(username)
             tiep_tuc()
         elif choice == "3":
             view_cart(username)
