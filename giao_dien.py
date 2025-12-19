@@ -80,7 +80,7 @@ def buyer_menu(username):
     while True:
         choice = buyer_giaodien()   # giữ nguyên hàm này
         if choice == "1":
-            print("Bạn đã chọn: Xem danh sách sản phẩm - chưa hoàn thiện")
+            view_all_products()
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
