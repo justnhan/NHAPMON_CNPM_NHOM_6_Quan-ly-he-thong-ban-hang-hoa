@@ -350,6 +350,36 @@ def place_order(username):
     # 5. Tính tổng tiền
     total = sum(item["price"] * item["quantity"] for item in user_cart)
 
+          # 6. Tạo đơn hàng
+    order_data = {
+        "order_id": order_id,
+        "username": username,
+        "items": user_cart,
+        "total": total,
+        "status": "Đã đặt",
+        "time": time.strftime("%d/%m/%Y %H:%M:%S")
+    }
+
+    # 7. Lưu đơn hàng
+    if username not in orders:
+        orders[username] = []
+
+    orders[username].append(order_data)
+
+    save_orders(orders)
+
+    # 8. Lưu lại kho sau khi trừ
+    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
+        json.dump(products, f, ensure_ascii=False, indent=4)
+
+    # 9. Xóa giỏ hàng
+    cart[username] = []
+    save_cart(cart)
+
+    # 10. Thông báo thành công
+    print("\n🎉 ĐẶT HÀNG THÀNH CÔNG!")
+    print(f"🧾 Mã đơn hàng: {order_id}")
+    print(f"💰 Tổng tiền: {total} VND")
 
 def view_all_products():
     products = load_products()
@@ -391,4 +421,3 @@ def view_all_products():
 
     print("-" * (name_width + 30))
     print(f"📦 Tổng số sản phẩm: {len(all_products)}")
-
