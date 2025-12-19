@@ -5,5 +5,12 @@
             "price": 1500000,
             "quantity": 1
         }
+    ],
+    "dangdan": [
+        {
+            "name": "Cáp sạc Anker PowerLine III Type-C",
+            "price": 320000,
+            "quantity": 1
+        }
     ]
 }

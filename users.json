@@ -22,11 +22,5 @@
         "email": "123",
         "phone": "123",
         "role": "buyer"
-    },
-    "nhan": {
-        "password": "123",
-        "email": "123",
-        "phone": "1234",
-        "role": "buyer"
     }
 }
