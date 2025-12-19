@@ -306,4 +306,46 @@ def save_orders(data):
     with open(ORDER_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+import time
+import uuid
 
+def place_order(username):
+    products = load_products()
+    cart = load_cart()
+    orders = load_orders()
+
+    # 1. Kiểm tra giỏ hàng
+    if username not in cart or len(cart[username]) == 0:
+        print("❌ Giỏ hàng trống, không thể đặt hàng!")
+        return
+
+    user_cart = cart[username]
+
+    # 2. Kiểm tra tồn kho
+    for cart_item in user_cart:
+        found = False
+        for seller, items in products.items():
+            if isinstance(items, list):
+                for product in items:
+                    if product["name"] == cart_item["name"]:
+                        found = True
+                        if cart_item["quantity"] > product["quantity"]:
+                            print(f"❌ Sản phẩm '{product['name']}' không đủ tồn kho!")
+                            return
+        if not found:
+            print(f"❌ Sản phẩm '{cart_item['name']}' không còn tồn tại!")
+            return
+
+    # 3. Trừ tồn kho
+    for cart_item in user_cart:
+        for seller, items in products.items():
+            if isinstance(items, list):
+                for product in items:
+                    if product["name"] == cart_item["name"]:
+                        product["quantity"] -= cart_item["quantity"]
+
+    # 4. Tạo mã đơn hàng
+    order_id = f"DH{int(time.time())}{str(uuid.uuid4())[:4]}"
+
+    # 5. Tính tổng tiền
+    total = sum(item["price"] * item["quantity"] for item in user_cart)
