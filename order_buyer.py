@@ -39,3 +39,38 @@ def view_order_history(username):
             f"{order['order_date']:<20} "
             f"{order['status']}"
         )
+
+    try:
+        choice = input("\nNhập ID đơn hàng để xem chi tiết (Enter để thoát): ").strip()
+        if choice == "":
+            return
+
+        oid = int(choice)
+        if oid < 0 or oid >= len(orders[username]):
+            print("❌ ID không hợp lệ!")
+            return
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    order = orders[username][oid]
+
+    print("\n=== 🧾 CHI TIẾT ĐƠN HÀNG ===")
+    print(f"Mã đơn     : {order['order_id']}")
+    print(f"Ngày mua   : {order['order_date']}")
+    print(f"Trạng thái : {order['status']}")
+    print("-" * 40)
+
+    total = 0
+    for item in order["items"]:
+        money = item["price"] * item["quantity"]
+        total += money
+        print(
+            f"- {item['name']} | "
+            f"SL: {item['quantity']} | "
+            f"Giá: {item['price']} | "
+            f"Thành tiền: {money}"
+        )
+
+    print("-" * 40)
+    print(f"💰 Tổng tiền: {total} VND")
