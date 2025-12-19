@@ -1,6 +1,6 @@
 from feature_seller import *
 from feature_buyer import *
-from feature_order_buyer import *
+from order_buyer import *
 
 # --- Hàm giao diện người mua và người bán ---
 
