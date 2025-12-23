@@ -3,24 +3,28 @@
         "password": "123",
         "email": "123",
         "phone": "123",
-        "role": "seller"
+        "role": "seller",
+        "balance": 0
     },
     "admin": {
         "password": "admin123",
         "email": "admin@gmail.com",
         "phone": "0000000000",
-        "role": "admin"
+        "role": "admin",
+        "balance": 100000000
     },
     "123": {
         "password": "123",
         "email": "123",
         "phone": "123",
-        "role": "buyer"
+        "role": "buyer",
+        "balance": 999999
     },
     "dangdan": {
         "password": "123",
         "email": "123",
         "phone": "123",
-        "role": "buyer"
+        "role": "buyer",
+        "balance": 0
     }
 }

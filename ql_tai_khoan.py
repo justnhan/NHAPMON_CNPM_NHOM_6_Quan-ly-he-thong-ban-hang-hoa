@@ -57,8 +57,9 @@ def register():
         "password": password,
         "email": email,
         "phone": phone,
-        "role": role
-    }
+        "role": role,
+        "balance": 0
+}
 
     save_users()
     print("✅ Đăng ký thành công vui lòng đăng nhập lại!")

@@ -3,6 +3,7 @@ from feature_buyer import *
 from order_buyer import *
 from ql_tai_khoan import *
 from feature_admin import *
+from utils import format_money_vn
 
 # --- Hàm giao diện người mua và người bán ---
 
@@ -11,10 +12,11 @@ def buyer_welcome(TenDangNhap):
     CYAN = "\033[96m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
-
-    
-    # Lời chào (không khung)
-    print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
+    balance = users[TenDangNhap]["balance"]
+    balance_str = format_money_vn(balance)
+    # Lời chào và số dư
+    print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}  "
+        f"[Số dư: {YELLOW}{balance_str}đ{RESET}]")
     print("Chúc bạn một ngày tốt lành!\n")
 
 def seller_welcome(TenDangNhap):
@@ -22,22 +24,19 @@ def seller_welcome(TenDangNhap):
     CYAN = "\033[96m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
-
+    balance = users[TenDangNhap]["balance"]
+    balance_str = format_money_vn(balance)
     # Lời chào (không khung)
-    print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
+    print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}  "
+        f"[Số dư: {YELLOW}{balance_str}đ{RESET}]")
     print("Chúc bạn một ngày tốt lành!\n")
 
-def buyer_giaodien():
-
-    
+def buyer_giaodien():  
     # Màu sắc
     CYAN = "\033[96m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
-
     
-
-
     # Menu có khung
     print(f"{CYAN}╔════════════════════════════╗{RESET}")
     print(f"{CYAN}║        MENU NGƯỜI MUA      ║{RESET}")
@@ -128,6 +127,14 @@ def seller_menu(username):
         else:
             print("❌ Lựa chọn không hợp lệ!")
 
+def admin_welcome(TenDangNhap):
+    RED = "\033[91m"
+    YELLOW = "\033[93m"
+    RESET = "\033[0m"
+    balance = users[TenDangNhap]["balance"]
+    balance_str = format_money_vn(balance)
+    print(f"\nXin chào {RED}ông chủ{RESET}  "
+          f"[Số dư: {YELLOW}{balance_str}đ{RESET}]")
 
 # Hàm giao diện Admin
 def admin_giaodien():
@@ -149,6 +156,7 @@ def admin_giaodien():
     return input("Chọn chức năng: ")
 
 def admin_menu(username):
+    admin_welcome(username)
     while True:
         choice = admin_giaodien()
 
