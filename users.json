@@ -26,5 +26,12 @@
         "phone": "123",
         "role": "buyer",
         "balance": 0
+    },
+    "nhan": {
+        "password": "123",
+        "email": "a@gmail.com",
+        "phone": "09235382",
+        "role": "buyer",
+        "balance": 0
     }
 }
