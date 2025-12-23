@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 from giao_dien import *
 
@@ -27,6 +28,13 @@ def save_users():
 
 
 # ----- CÁC HÀM XỬ LÝ VẤN ĐỀ TÀI KHOẢN CƠ BẢN -----
+def is_valid_gmail(email):
+    """
+    Kiểm tra email có đúng định dạng Gmail hay không
+    Ví dụ hợp lệ: abc@gmail.com
+    """
+    pattern = r"^[a-zA-Z0-9._%+-]+@gmail\.com$"
+    return re.match(pattern, email) is not None
 def register():
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
 
@@ -36,6 +44,9 @@ def register():
         return
 
     email = input("Email: ").strip()
+    if not is_valid_gmail(email):
+        print("❌ Email không hợp lệ! Vui lòng nhập đúng định dạng @gmail.com")
+        return
     phone = input("Số điện thoại: ").strip()
 
     password = input("Mật khẩu: ").strip()
