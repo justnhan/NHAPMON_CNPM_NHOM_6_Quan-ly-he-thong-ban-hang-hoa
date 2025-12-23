@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 from ql_tai_khoan import *
 
@@ -11,13 +12,23 @@ def show_logo():
     YELLOW = "\033[93m"
     RESET = "\033[0m"
     BOLD = "\033[1m"
-
+    print( """
+    ██╗      ██████╗ ███████╗
+    ██║     ██╔═══██╗██╔════╝
+    ██║     ██║   ██║███████╗
+    ██║     ██║   ██║╚════██║
+    ███████╗╚██████╔╝███████║
+    """)
+    print("\n       LOCAL  ONLINE  SHOP")
     print()
-    print(f"{PINK}{BOLD}(づ｡◕‿‿◕｡)づ  💖  CHÀO MỪNG ĐẾN VỚI SHOP 💖{RESET}")
+    print(f"{PINK}{BOLD}(づ｡◕‿‿◕｡)づ  💖  CHÀO MỪNG ĐẾN VỚI LOS 💖{RESET}")
 
+def xoa_man_hinh():
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def main():
+
     while True:
         show_logo()
         # Màu ANSI
@@ -33,7 +44,7 @@ def main():
         print("\n" + CYAN + "╔" + "═" * WIDTH + "╗" + RESET)
 
         line1 = "👋👋👋👋"
-        print(CYAN + "║" + RESET + f"{line1.center(WIDTH)}" + CYAN + "║" + RESET)
+        print(CYAN + "║" + RESET + f"{line1.center(WIDTH-4)}" + CYAN + "║" + RESET)
 
         line2 = "Hệ thống Bán hàng"
         print(CYAN + "║" + RESET + f"{line2.center(WIDTH)}" + CYAN + "║" + RESET)
@@ -41,7 +52,7 @@ def main():
         print(CYAN + "╠" + "═" * WIDTH + "╣" + RESET)
 
         title = "🌟 MENU CHÍNH 🌟"
-        print(CYAN + "║" + RESET + BOLD + BLUE + f"{title.center(WIDTH)}" + RESET + CYAN + "║" + RESET)
+        print(CYAN + "║" + RESET + BOLD + BLUE + f"{title.center(WIDTH-2)}" + RESET + CYAN + "║" + RESET)
 
         print(CYAN + "╠" + "═" * WIDTH + "╣" + RESET)
 
@@ -55,10 +66,13 @@ def main():
         choice = input("Lựa chọn: ")
 
         if choice == "1":
+            xoa_man_hinh()
             login()
         elif choice == "2":
+            xoa_man_hinh()
             register()
         elif choice == "3":
+            xoa_man_hinh()
             forgot_password()
         elif choice == "4":
             print("Thoát chương trình...")

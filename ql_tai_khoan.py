@@ -73,7 +73,9 @@ def register():
 }
 
     save_users()
-    print("✅ Đăng ký thành công vui lòng đăng nhập lại!")
+    print("✅ Đăng ký thành công vui lòng đăng nhập lại (Nhấn Enter để quay về)!")
+    input()
+    
 
 def login():
     print("\n--- ĐĂNG NHẬP ---")
@@ -81,11 +83,13 @@ def login():
     password = input("Mật khẩu: ").strip()
 
     if username not in users:
-        print("❌ Tài khoản không tồn tại!")
+        print("❌ Tài khoản không tồn tại! (Nhấn Enter để quay về.)")
+        input()
         return
 
     if users[username]["password"] != password:
-        print("❌ Sai mật khẩu!")
+        print("❌ Sai mật khẩu! (Nhấn Enter để quay về.)")
+        input()
         return
 
     print("✅ Đăng nhập thành công!")
