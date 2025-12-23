@@ -16,7 +16,6 @@ def buyer_welcome(TenDangNhap):
     # Lời chào (không khung)
     print(f"\nXin chào {CYAN}{TenDangNhap}{RESET}!")
     print("Chúc bạn một ngày tốt lành!\n")
-    print("\n--CHƯA HOÀN THIỆN CHỨC NĂNG--")
 
 def seller_welcome(TenDangNhap):
         # Màu sắc
