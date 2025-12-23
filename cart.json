@@ -11,6 +11,11 @@
             "name": "Cáp sạc Anker PowerLine III Type-C",
             "price": 320000,
             "quantity": 1
+        },
+        {
+            "name": "Chuột Logitech G304 Lightspeed",
+            "price": 650000,
+            "quantity": 1
         }
     ]
 }

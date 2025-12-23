@@ -61,7 +61,7 @@ def register():
     }
 
     save_users()
-    print("✅ Đăng ký thành công!")
+    print("✅ Đăng ký thành công vui lòng đăng nhập lại!")
 
 def login():
     print("\n--- ĐĂNG NHẬP ---")

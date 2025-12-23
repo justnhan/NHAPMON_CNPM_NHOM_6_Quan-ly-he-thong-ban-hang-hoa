@@ -16,5 +16,11 @@
         "email": "123",
         "phone": "123",
         "role": "buyer"
+    },
+    "dangdan": {
+        "password": "123",
+        "email": "123",
+        "phone": "123",
+        "role": "buyer"
     }
 }
