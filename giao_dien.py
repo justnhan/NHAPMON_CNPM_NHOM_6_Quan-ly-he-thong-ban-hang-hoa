@@ -47,6 +47,7 @@ def buyer_giaodien():
     print(f"{YELLOW}3.{RESET} Xem giỏ hàng")
     print(f"{YELLOW}4.{RESET} Xem đơn hàng đã mua")
     print(f"{YELLOW}5.{RESET} Thêm sản phẩm vào giỏ hàng")
+    print(f"{YELLOW}6.{RESET} Tìm kiếm sản phẩm theo tên shop")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -95,6 +96,9 @@ def buyer_menu(username):
             tiep_tuc()
         elif choice == "5":
             add_to_cart(username)
+            tiep_tuc()
+        elif choice == "6":
+            search_product_by_username
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
