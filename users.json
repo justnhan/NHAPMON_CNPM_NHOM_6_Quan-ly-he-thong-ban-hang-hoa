@@ -33,5 +33,12 @@
         "phone": "09235382",
         "role": "buyer",
         "balance": 0
+    },
+    "1": {
+        "password": "1",
+        "email": "1@gmail.com",
+        "phone": "1",
+        "role": "buyer",
+        "balance": 0
     }
 }
