@@ -1,6 +1,6 @@
 import json
 import os
-
+from order_buyer import *
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 
 CART_FILE = os.path.join(BASE_DIR, "cart.json")  # cart.json nằm cùng thư mục
@@ -101,7 +101,14 @@ def view_cart(username):
             print("❌ Số lượng phải là số > 0")
             return
 
-        cart[username][pid]["quantity"] = int(new_qty)
+        new_qty = int(new_qty)
+        product_name = cart[username][pid]["name"]
+
+# ✅ KIỂM TRA TỒN KHO
+        if not check_stock(product_name, new_qty):
+            return
+
+        cart[username][pid]["quantity"] = new_qty
         save_cart(cart)
         print("✅ Cập nhật số lượng thành công!")
     elif choice == "2":
