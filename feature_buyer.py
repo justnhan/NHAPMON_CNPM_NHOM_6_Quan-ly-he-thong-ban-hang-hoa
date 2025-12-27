@@ -430,31 +430,51 @@ def search_product_by_username():
         print("❌ Hiện chưa có sản phẩm nào!")
         return
 
-    seller_username = input("👤 Nhập username người bán: ").strip()
+    keyword = input("👤 Nhập username người bán (gần đúng): ").strip().lower()
 
-    if not seller_username:
+    if not keyword:
         print("❌ Username không được để trống!")
         return
 
-    # 1. Kiểm tra người bán tồn tại
-    if seller_username not in products or not isinstance(products[seller_username], list):
-        print("❌ Không tìm thấy người bán này!")
+    # 1. Tìm các username khớp gần đúng
+    matched_sellers = [
+        username for username in products.keys()
+        if keyword in username.lower()
+    ]
+
+    if not matched_sellers:
+        print("❌ Không tìm thấy người bán phù hợp!")
         return
 
+    # 2. Nếu nhiều người bán → cho chọn
+    print("\n=== NGƯỜI BÁN PHÙ HỢP ===")
+    for idx, username in enumerate(matched_sellers):
+        print(f"{idx}. {username}")
+
+    try:
+        choice = int(input("Chọn ID người bán: "))
+        if choice < 0 or choice >= len(matched_sellers):
+            print("❌ ID không hợp lệ!")
+            return
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    seller_username = matched_sellers[choice]
     seller_products = products[seller_username]
 
     if not seller_products:
         print("❌ Người bán này chưa có sản phẩm!")
         return
 
-    # 2. Tính độ rộng cột tên
+    # 3. Tính độ rộng cột tên
     name_width = max(
         (len(item["name"]) for item in seller_products),
         default=20
     )
     name_width = max(name_width, 20)
 
-    # 3. In danh sách sản phẩm của người bán
+    # 4. In danh sách sản phẩm
     print(f"\n=== SẢN PHẨM CỦA NGƯỜI BÁN: {seller_username} ===")
     print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
     print("-" * (name_width + 30))
@@ -465,6 +485,7 @@ def search_product_by_username():
 
     print("-" * (name_width + 30))
     print(f"📦 Tổng số sản phẩm: {len(seller_products)}")
+
     
 def view_top_10_products():
     products = load_products()
