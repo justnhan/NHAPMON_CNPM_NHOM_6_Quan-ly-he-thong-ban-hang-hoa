@@ -2,6 +2,7 @@ import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PRODUCT_FILE = os.path.join(BASE_DIR, "products.json")
 ORDER_FILE = os.path.join(BASE_DIR, "orders.json")
 
 
@@ -74,3 +75,24 @@ def view_order_history(username):
 
     print("-" * 40)
     print(f"💰 Tổng tiền: {total} VND")
+def load_products():
+    if os.path.exists(PRODUCT_FILE):
+        with open(PRODUCT_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+def check_stock(product_name, buy_quantity):
+    products = load_products()
+
+    for seller, plist in products.items():
+        for p in plist:
+            if p["name"].lower() == product_name.lower():
+                if buy_quantity > p["quantity"]:
+                    print(
+                        f"❌ Quá số lượng tồn kho!\n"
+                        f"Tồn kho hiện tại: {p['quantity']}"
+                    )
+                    return False
+                return True
+
+    print("❌ Không tìm thấy sản phẩm!")
+    return False
