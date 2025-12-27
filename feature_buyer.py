@@ -413,73 +413,90 @@ def place_order(username):
 
 import random
 
-def view_all_products():
+def view_all_products(username):
     products = load_products()
 
     print("\n=== DANH SÁCH SẢN PHẨM NGẪU NHIÊN ===")
 
-    # 1. Kiểm tra dữ liệu
     if not products:
         print("❌ Hiện chưa có sản phẩm nào!")
         return
 
-    # 2. Gom toàn bộ sản phẩm hợp lệ
+    # 1. Gom toàn bộ sản phẩm hợp lệ
     all_products = []
 
     for seller, items in products.items():
         if isinstance(items, list):
             for item in items:
-                if isinstance(item, dict) and all(k in item for k in ("name", "price", "quantity")):
+                if isinstance(item, dict) and all(
+                    k in item for k in ("name", "price", "quantity")
+                ):
                     all_products.append(item)
 
     if not all_products:
         print("❌ Không có sản phẩm hợp lệ!")
         return
 
-    # 3. Trộn ngẫu nhiên danh sách
+    # 2. Trộn ngẫu nhiên
     random.shuffle(all_products)
 
     total_products = len(all_products)
     index = 0
     page_size = 10
 
-    # 4. Tính độ rộng cột tên (tính trước cho đẹp)
-    name_width = max(
-        (len(item["name"]) for item in all_products),
-        default=20
-    )
+    # 3. Tính độ rộng cột tên
+    name_width = max(len(item["name"]) for item in all_products)
     name_width = max(name_width, 20)
 
-    # 5. Hiển thị từng trang
+    # 4. Hiển thị từng trang
     while index < total_products:
-        print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
-        print("-" * (name_width + 30))
+        print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<12} {'Tồn kho'}")
+        print("-" * (name_width + 35))
 
         current_page = all_products[index:index + page_size]
 
         for idx, item in enumerate(current_page, start=index):
             print(
-                f"{idx:<3} {item['name']:<{name_width}} "
-                f"{format_money_vn(item['price']):<10} "
+                f"{idx:<3} "
+                f"{item['name']:<{name_width}} "
+                f"{format_money_vn(item['price']):<12} "
                 f"{item['quantity']}"
             )
 
+        print("-" * (name_width + 35))
 
-        print("-" * (name_width + 30))
+        # ====== CHỌN ID ======
+        choice = input("\n🛒 Nhập ID sản phẩm để thêm vào giỏ (Enter để bỏ qua): ").strip()
+        if choice != "":
+            if not choice.isdigit():
+                print("❌ ID không hợp lệ!")
+            else:
+                choice = int(choice)
+                if 0 <= choice < total_products:
+                    selected_product = all_products[choice]
+
+                    qty = input(
+                        f"📦 Nhập số lượng (tối đa {selected_product['quantity']}): "
+                    ).strip()
+
+                    if not qty.isdigit() or int(qty) <= 0:
+                        print("❌ Số lượng không hợp lệ!")
+                    else:
+                        add_to_cart(username, selected_product, int(qty))
+                else:
+                    print("❌ ID không tồn tại!")
+
         index += page_size
 
-        # Nếu đã hết sản phẩm
         if index >= total_products:
             print("🎉 Đã hiển thị tất cả sản phẩm!")
             break
 
-        # 6. Hỏi người dùng có muốn xem tiếp không
-        choice = input("👉 Bạn có muốn xem thêm sản phẩm không? (y/n): ").strip().lower()
-        if choice != "y":
+        # 5. Xem tiếp?
+        cont = input("👉 Bạn có muốn xem thêm sản phẩm không? (y/n): ").strip().lower()
+        if cont != "y":
             print("↩ Đã dừng xem sản phẩm.")
             break
-
-
 
 def search_product_by_username():
     products = load_products()
