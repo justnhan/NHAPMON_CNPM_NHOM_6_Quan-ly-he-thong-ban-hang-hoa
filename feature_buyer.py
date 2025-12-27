@@ -1,5 +1,7 @@
 import json
 import os
+from utils import format_money_vn
+
 from order_buyer import *
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 
@@ -465,7 +467,12 @@ def view_all_products():
         current_page = all_products[index:index + page_size]
 
         for idx, item in enumerate(current_page, start=index):
-            print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+            print(
+                f"{idx:<3} {item['name']:<{name_width}} "
+                f"{format_money_vn(item['price']):<10} "
+                f"{item['quantity']}"
+            )
+
 
         print("-" * (name_width + 30))
         index += page_size
