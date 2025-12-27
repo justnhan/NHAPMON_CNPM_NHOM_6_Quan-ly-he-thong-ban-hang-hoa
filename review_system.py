@@ -87,3 +87,43 @@ def show_reviews(product_name):
         if r["comment"]:
             print(f"Nhận xét  : {r['comment']}")
         print(f"Ngày      : {r['date']}")
+
+# ---------- SỬA / XÓA ĐÁNH GIÁ ----------
+def edit_or_delete_review(username, product_name):
+    reviews = load_reviews()
+
+    if product_name not in reviews:
+        print("❌ Không có đánh giá.")
+        return
+
+    for r in reviews[product_name]:
+        if r["user"] == username:
+            print("\n1. Sửa đánh giá")
+            print("2. Xóa đánh giá")
+            choice = input("Chọn: ")
+
+            if choice == "1":
+                try:
+                    stars = int(input("Số sao mới (1-5): "))
+                    if stars < 1 or stars > 5:
+                        raise ValueError
+                except:
+                    print("❌ Số sao không hợp lệ!")
+                    return
+
+                comment = input("Nhận xét mới: ").strip()
+                r["stars"] = stars
+                r["comment"] = comment
+                r["date"] = datetime.now().strftime("%d/%m/%Y %H:%M")
+
+                save_reviews(reviews)
+                print("✅ Đã cập nhật đánh giá!")
+                return
+
+            elif choice == "2":
+                reviews[product_name].remove(r)
+                save_reviews(reviews)
+                print("🗑️ Đã xóa đánh giá!")
+                return
+
+    print("❌ Bạn chưa đánh giá sản phẩm này.")
