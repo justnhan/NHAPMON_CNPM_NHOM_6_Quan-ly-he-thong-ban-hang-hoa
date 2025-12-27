@@ -1,0 +1,15 @@
+{
+  "sellerA": [
+    {
+      "order_id": "DH123",
+      "buyer": "user1",
+      "product_name": "Áo thun",
+      "quantity": 2,
+      "total": 200000,
+      "payment_status": "Đã thanh toán",
+      "delivery_status": "Đang giao",
+      "order_status": "Chưa hoàn thành",
+      "time": "27/12/2025 10:30"
+    }
+  ]
+}
