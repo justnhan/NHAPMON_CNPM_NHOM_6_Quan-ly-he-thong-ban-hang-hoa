@@ -391,12 +391,14 @@ def place_order(username):
     print(f"💰 Tổng tiền: {total} VND")
 
 
+import random
+
 def view_all_products():
     products = load_products()
 
-    print("\n=== DANH SÁCH TOÀN BỘ SẢN PHẨM ===")
+    print("\n=== DANH SÁCH SẢN PHẨM NGẪU NHIÊN ===")
 
-    # 1. Kiểm tra có sản phẩm không
+    # 1. Kiểm tra dữ liệu
     if not products:
         print("❌ Hiện chưa có sản phẩm nào!")
         return
@@ -414,23 +416,44 @@ def view_all_products():
         print("❌ Không có sản phẩm hợp lệ!")
         return
 
-    # 3. Tính độ rộng cột tên
+    # 3. Trộn ngẫu nhiên danh sách
+    random.shuffle(all_products)
+
+    total_products = len(all_products)
+    index = 0
+    page_size = 10
+
+    # 4. Tính độ rộng cột tên (tính trước cho đẹp)
     name_width = max(
         (len(item["name"]) for item in all_products),
         default=20
     )
     name_width = max(name_width, 20)
 
-    # 4. In tiêu đề bảng
-    print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
-    print("-" * (name_width + 30))
+    # 5. Hiển thị từng trang
+    while index < total_products:
+        print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
+        print("-" * (name_width + 30))
 
-    # 5. In từng sản phẩm
-    for idx, item in enumerate(all_products):
-        print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+        current_page = all_products[index:index + page_size]
 
-    print("-" * (name_width + 30))
-    print(f"📦 Tổng số sản phẩm: {len(all_products)}")
+        for idx, item in enumerate(current_page, start=index):
+            print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+
+        print("-" * (name_width + 30))
+        index += page_size
+
+        # Nếu đã hết sản phẩm
+        if index >= total_products:
+            print("🎉 Đã hiển thị tất cả sản phẩm!")
+            break
+
+        # 6. Hỏi người dùng có muốn xem tiếp không
+        choice = input("👉 Bạn có muốn xem thêm sản phẩm không? (y/n): ").strip().lower()
+        if choice != "y":
+            print("↩ Đã dừng xem sản phẩm.")
+            break
+
 
 
 def search_product_by_username():
