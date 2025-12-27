@@ -580,3 +580,36 @@ def view_top_10_products():
     print("-" * (name_width + 35))
 
 
+def top_up_balance(username):
+    users = load_users()
+
+    if username not in users:
+        print("❌ Người dùng không tồn tại!")
+        return
+
+    current_balance = users[username].get("balance", 0)
+    print(f"\n💰 Số dư hiện tại: {current_balance} VND")
+
+    amount_input = input("💵 Nhập số tiền muốn nạp: ").strip()
+
+    if not amount_input.isdigit():
+        print("❌ Số tiền phải là số!")
+        return
+
+    amount = int(amount_input)
+
+    if amount <= 0:
+        print("❌ Số tiền nạp phải lớn hơn 0!")
+        return
+
+    confirm = input(f"👉 Xác nhận nạp {amount} VND? (y/n): ").strip().lower()
+    if confirm != "y":
+        print("↩ Đã hủy nạp tiền.")
+        return
+
+    # ✅ Chỉ cập nhật balance
+    users[username]["balance"] = current_balance + amount
+    save_users(users)
+
+    print("✅ NẠP TIỀN THÀNH CÔNG!")
+    print(f"💰 Số dư mới: {users[username]['balance']} VND")
