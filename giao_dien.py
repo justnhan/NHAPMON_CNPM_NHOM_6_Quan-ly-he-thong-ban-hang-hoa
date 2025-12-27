@@ -3,7 +3,7 @@ from feature_buyer import *
 from order_buyer import *
 from feature_admin import *
 from utils import format_money_vn
-
+from seller_notification import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 DATA_FILE = os.path.join(BASE_DIR, "users.json")       # users.json nằm cùng thư mục
@@ -197,6 +197,7 @@ def admin_giaodien():
     print(f"{YELLOW}3.{RESET} Hiển thị tất cả sản phẩm")
     print(f"{YELLOW}4.{RESET} Xóa tài khoản người bán")
     print(f"{YELLOW}5.{RESET} Xóa tài khoản người mua")
+    print(f"{YELLOW}6.{RESET} Thông báo đơn hàng")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     return input("Chọn chức năng: ")
@@ -216,6 +217,10 @@ def admin_menu(username):
             delete_user_by_role("seller")
         elif choice == "5":
             delete_user_by_role("buyer")
+        elif choice == "6":
+            view_notifications(username)
+            update_order_status(username)
+            tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
             break
