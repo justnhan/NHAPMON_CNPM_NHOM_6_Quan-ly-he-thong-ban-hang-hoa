@@ -23,3 +23,14 @@ def save_reviews(data):
     with open(REVIEW_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+def has_purchased(username, product_name):
+    orders = load_orders()
+
+    if username not in orders:
+        return False
+
+    for order in orders[username]:
+        for item in order["items"]:
+            if item["name"].lower() == product_name.lower():
+                return True
+    return False
