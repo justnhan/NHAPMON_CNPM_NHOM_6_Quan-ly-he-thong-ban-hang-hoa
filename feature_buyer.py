@@ -196,7 +196,7 @@ def add_to_cart(username):
     # 11. Hiển thị lại giỏ hàng
     view_cart(username)
 
-def search_product (username):
+def search_product(username):
     products = load_products()
     cart = load_cart()
 
@@ -209,7 +209,7 @@ def search_product (username):
         print("❌ Từ khóa tìm kiếm không được để trống!")
         return
 
-    # 1. Gom & lọc sản phẩm theo từ khóa
+    # 1. Gom & lọc sản phẩm (chỉ lấy tên BẮT ĐẦU bằng keyword)
     matched_products = []
 
     for seller, items in products.items():
@@ -218,7 +218,7 @@ def search_product (username):
                 if (
                     isinstance(item, dict)
                     and all(k in item for k in ("name", "price", "quantity"))
-                    and keyword in item["name"].lower()
+                    and item["name"].lower().startswith(keyword)
                 ):
                     matched_products.append(item)
 
@@ -227,23 +227,27 @@ def search_product (username):
         return
 
     # 2. Tính độ rộng cột tên
-    name_width = max(
-        (len(item["name"]) for item in matched_products),
-        default=20
-    )
+    name_width = max(len(item["name"]) for item in matched_products)
     name_width = max(name_width, 20)
 
-    # 3. In kết quả tìm kiếm
+    # 3. In kết quả tìm kiếm (có thêm cột Đã bán)
     print("\n=== KẾT QUẢ TÌM KIẾM ===")
-    print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
-    print("-" * (name_width + 30))
+    print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho':<10} {'Đã bán'}")
+    print("-" * (name_width + 45))
 
     for idx, item in enumerate(matched_products):
-        print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+        sold = item.get("sold", 0)
+        print(
+            f"{idx:<3} "
+            f"{item['name']:<{name_width}} "
+            f"{item['price']:<10} "
+            f"{item['quantity']:<10} "
+            f"{sold}"
+        )
 
     # 4. Chọn sản phẩm
     try:
-        pid = int(input("\nNhập ID sản phẩm muốn thêm: "))
+        pid = int(input("\nNhập ID sản phẩm muốn thêm vào giỏ: "))
         if pid < 0 or pid >= len(matched_products):
             print("❌ ID không hợp lệ!")
             return
@@ -288,7 +292,6 @@ def search_product (username):
 
     save_cart(cart)
     print("✅ Đã thêm sản phẩm vào giỏ!")
-
     view_cart(username)
 
 # load & save đơn hàng
