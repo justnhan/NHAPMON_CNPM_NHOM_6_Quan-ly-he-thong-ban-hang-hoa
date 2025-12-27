@@ -177,6 +177,10 @@ def add_to_cart(username):
     # 9. Nếu sản phẩm đã có trong giỏ → cộng số lượng
     for item in cart[username]:
         if item["name"] == product["name"]:
+            if item["quantity"] + qty > product["quantity"]:
+                print("❌ Tổng số lượng trong giỏ vượt quá tồn kho!")
+                return
+
             item["quantity"] += qty
             save_cart(cart)
             print("✅ Đã cập nhật số lượng sản phẩm trong giỏ!")
