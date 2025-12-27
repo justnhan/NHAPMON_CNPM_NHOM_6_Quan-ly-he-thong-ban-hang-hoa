@@ -131,68 +131,29 @@ def view_cart(username):
         print("✅ Đã xóa sản phẩm khỏi giỏ!")
 
     elif choice == "3":
-        print("\n🧾 SẢN PHẨM TRONG ĐƠN HÀNG:")
-
-        for item in cart[username]:
-            print(f"- {item['name']} | SL: {item['quantity']} | Giá: {item['price']}")
-
-        print(f"\n💰 Tổng tiền cần thanh toán: {total} VND")
-
-        confirm = input("\n❓ Bạn có muốn mua toàn bộ sản phẩm trong giỏ không? (Y/N): ").strip().upper()
-
-        if confirm != "Y":
-            print("↩ Đã hủy mua hàng.")
-            return
-
-    # 🔎 Kiểm tra tồn kho lần cuối
-        for item in cart[username]:
-            if not check_stock(item["name"], item["quantity"]):
-                return
-
-        products = load_products()
-
-    # ➖ Trừ tồn kho
-        for seller, items in products.items():
-            for p in items:
-                for c in cart[username]:
-                    if p["name"] == c["name"]:
-                        p["quantity"] -= c["quantity"]
-                        p["total_purchased"] += c["quantity"]
-
-        save_products(products)
-
-    # 🧹 Xóa giỏ hàng
-        cart[username] = []
-        save_cart(cart)
-
-        print("\n🎉 MUA HÀNG THÀNH CÔNG!")
-        print(f"💵 Vui lòng thanh toán số tiền {total} VND khi nhận hàng.")
-
-    else:
-        print("↩ Trở lại menu.")
-        return
+        place_order(username)
 
 def add_to_cart(username, product, buy_qty):
-    carts = load_cart()          # carts là dict
+    carts = load_cart()
 
     if username not in carts:
         carts[username] = []
-
-    user_cart = carts[username]  # ✅ list đúng
 
     # Check tồn kho
     if buy_qty > product["quantity"]:
         print("❌ Vượt quá tồn kho!")
         return
 
-    for item in user_cart:       # ✅ item là dict
+    # Nếu sản phẩm đã có → cộng số lượng
+    for item in carts[username]:
         if item["name"] == product["name"]:
             item["quantity"] += buy_qty
             save_cart(carts)
             print("✅ Đã cập nhật số lượng trong giỏ!")
             return
 
-    user_cart.append({
+    # Nếu chưa có → thêm mới
+    carts[username].append({
         "name": product["name"],
         "price": product["price"],
         "quantity": buy_qty
@@ -367,13 +328,13 @@ def place_order(username):
 
     # 6. Tạo đơn hàng
     order_data = {
-        "order_id": order_id,
-        "username": username,
-        "items": user_cart,
-        "total": total,
-        "status": "Đã đặt",
-        "time": time.strftime("%d/%m/%Y %H:%M:%S")
-    }
+    "order_id": order_id,
+    "username": username,
+    "items": user_cart,
+    "total": total,
+    "status": "Đã đặt",
+    "order_date": time.strftime("%d/%m/%Y %H:%M:%S")  # đổi key
+}
 
     # 7. Lưu đơn hàng
     if username not in orders:

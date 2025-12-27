@@ -21,20 +21,20 @@
         {
             "name": "USB SanDisk Ultra Flair 64GB",
             "price": 220000,
-            "quantity": 5,
-            "total_purchased": 5
+            "quantity": 3,
+            "total_purchased": 7
         },
         {
             "name": "Ổ cứng SSD Samsung 870 EVO 500GB",
             "price": 1350000,
-            "quantity": 15,
-            "total_purchased": 7
+            "quantity": 13,
+            "total_purchased": 9
         },
         {
             "name": "Lót chuột Logitech Studio Series",
             "price": 350000,
-            "quantity": 50,
-            "total_purchased": 11
+            "quantity": 48,
+            "total_purchased": 13
         }
     ],
     "dangdan1": [
@@ -47,26 +47,26 @@
         {
             "name": "Sạc dự phòng Anker PowerCore Slim 10000",
             "price": 650000,
-            "quantity": 30,
-            "total_purchased": 9
+            "quantity": 27,
+            "total_purchased": 12
         },
         {
             "name": "Cáp sạc Anker PowerLine III Type-C",
             "price": 320000,
-            "quantity": 59,
-            "total_purchased": 7
+            "quantity": 56,
+            "total_purchased": 10
         },
         {
             "name": "Loa Bluetooth JBL Charge 5",
             "price": 3200000,
-            "quantity": 100,
-            "total_purchased": 1
+            "quantity": 98,
+            "total_purchased": 3
         },
         {
             "name": "Webcam Logitech C920 HD Pro",
             "price": 1500000,
-            "quantity": 80,
-            "total_purchased": 16
+            "quantity": 75,
+            "total_purchased": 21
         },
         {
             "name": "Chuột gaming Razer DeathAdder Essential",

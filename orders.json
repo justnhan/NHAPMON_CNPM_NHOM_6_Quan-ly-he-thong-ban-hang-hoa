@@ -1,0 +1,60 @@
+{
+    "dangdan": [
+        {
+            "order_id": "DH1766817880184a",
+            "username": "dangdan",
+            "items": [
+                {
+                    "name": "USB SanDisk Ultra Flair 64GB",
+                    "price": 220000,
+                    "quantity": 2
+                }
+            ],
+            "total": 440000,
+            "status": "Đã đặt",
+            "time": "27/12/2025 13:44:40"
+        },
+        {
+            "order_id": "DH1766818017a022",
+            "username": "dangdan",
+            "items": [
+                {
+                    "name": "Sạc dự phòng Anker PowerCore Slim 10000",
+                    "price": 650000,
+                    "quantity": 3
+                }
+            ],
+            "total": 1950000,
+            "status": "Đã đặt",
+            "order_date": "27/12/2025 13:46:57"
+        },
+        {
+            "order_id": "DH17668181363dc2",
+            "username": "dangdan",
+            "items": [
+                {
+                    "name": "Cáp sạc Anker PowerLine III Type-C",
+                    "price": 320000,
+                    "quantity": 3
+                }
+            ],
+            "total": 960000,
+            "status": "Đã đặt",
+            "order_date": "27/12/2025 13:48:56"
+        },
+        {
+            "order_id": "DH1766818267b657",
+            "username": "dangdan",
+            "items": [
+                {
+                    "name": "Webcam Logitech C920 HD Pro",
+                    "price": 1500000,
+                    "quantity": 3
+                }
+            ],
+            "total": 4500000,
+            "status": "Đã đặt",
+            "order_date": "27/12/2025 13:51:07"
+        }
+    ]
+}
