@@ -82,7 +82,7 @@ def buyer_menu(username):
     while True:
         choice = buyer_giaodien()   # giữ nguyên hàm này
         if choice == "1":
-            view_all_products()
+            view_top_10_products()
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
