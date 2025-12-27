@@ -83,6 +83,7 @@ def view_cart(username):
     print("\nBạn muốn làm gì?")
     print("1. Thay đổi số lượng")
     print("2. Xóa sản phẩm")
+    print("3. Mua sản phẩm")
     print("0. Thoát")
 
     choice = input("Chọn: ")
@@ -127,6 +128,44 @@ def view_cart(username):
         save_cart(cart)
 
         print("✅ Đã xóa sản phẩm khỏi giỏ!")
+
+    elif choice == "3":
+        print("\n🧾 SẢN PHẨM TRONG ĐƠN HÀNG:")
+
+        for item in cart[username]:
+            print(f"- {item['name']} | SL: {item['quantity']} | Giá: {item['price']}")
+
+        print(f"\n💰 Tổng tiền cần thanh toán: {total} VND")
+
+        confirm = input("\n❓ Bạn có muốn mua toàn bộ sản phẩm trong giỏ không? (Y/N): ").strip().upper()
+
+        if confirm != "Y":
+            print("↩ Đã hủy mua hàng.")
+            return
+
+    # 🔎 Kiểm tra tồn kho lần cuối
+        for item in cart[username]:
+            if not check_stock(item["name"], item["quantity"]):
+                return
+
+        products = load_products()
+
+    # ➖ Trừ tồn kho
+        for seller, items in products.items():
+            for p in items:
+                for c in cart[username]:
+                    if p["name"] == c["name"]:
+                        p["quantity"] -= c["quantity"]
+                        p["total_purchased"] += c["quantity"]
+
+        save_products(products)
+
+    # 🧹 Xóa giỏ hàng
+        cart[username] = []
+        save_cart(cart)
+
+        print("\n🎉 MUA HÀNG THÀNH CÔNG!")
+        print(f"💵 Vui lòng thanh toán số tiền {total} VND khi nhận hàng.")
 
     else:
         print("↩ Trở lại menu.")
@@ -643,3 +682,6 @@ def top_up_balance(username):
 
     print("✅ NẠP TIỀN THÀNH CÔNG!")
     print(f"💰 Số dư mới: {users[username]['balance']} VND")
+def save_products(products):
+    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
+        json.dump(products, f, ensure_ascii=False, indent=4)
