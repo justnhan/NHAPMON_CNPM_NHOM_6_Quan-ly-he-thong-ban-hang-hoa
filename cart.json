@@ -6,7 +6,13 @@
             "quantity": 1
         }
     ],
-    "dangdan": [],
+    "dangdan": [
+        {
+            "name": "Lót chuột Logitech Studio Series",
+            "price": 350000,
+            "quantity": 2
+        }
+    ],
     "123": [
         {
             "name": "Chuột Logitech G304 Lightspeed",

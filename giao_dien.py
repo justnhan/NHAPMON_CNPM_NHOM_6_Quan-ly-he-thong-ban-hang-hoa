@@ -122,7 +122,7 @@ def buyer_menu(username):
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
-            view_top_10_products()
+            view_top_10_products(username)
             tiep_tuc()
         elif choice == "3":
             search_product(username)
