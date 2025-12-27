@@ -98,7 +98,7 @@ def buyer_menu(username):
             add_to_cart(username)
             tiep_tuc()
         elif choice == "6":
-            search_product_by_username
+            search_product_by_username()
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
