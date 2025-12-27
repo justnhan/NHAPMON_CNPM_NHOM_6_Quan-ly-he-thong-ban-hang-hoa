@@ -32,6 +32,22 @@ def save_cart(data):
     with open(CART_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+def decrease_stock(product_name, buy_quantity):
+    products = load_products()
+
+    for seller, plist in products.items():
+        for p in plist:
+            if p["name"].lower() == product_name.lower():
+                if p["quantity"] >= buy_quantity:
+                    p["quantity"] -= buy_quantity
+                else:
+                    print("❌ Lỗi tồn kho!")
+                    return
+                break
+    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
+        json.dump(products, f, ensure_ascii=False, indent=4)
+
+
 def view_cart(username):
     cart = load_cart()
 
