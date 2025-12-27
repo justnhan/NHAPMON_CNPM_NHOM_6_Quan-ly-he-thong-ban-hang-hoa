@@ -19,3 +19,7 @@ def load_reviews():
         with open(REVIEW_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
+def save_reviews(data):
+    with open(REVIEW_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
