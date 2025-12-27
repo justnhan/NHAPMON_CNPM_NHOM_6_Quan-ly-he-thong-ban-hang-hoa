@@ -11,6 +11,16 @@
             "name": "Lót chuột Logitech Studio Series",
             "price": 350000,
             "quantity": 2
+        },
+        {
+            "name": "Webcam Logitech C920 HD Pro",
+            "price": 1500000,
+            "quantity": 2
+        },
+        {
+            "name": "Loa Bluetooth JBL Charge 5",
+            "price": 3200000,
+            "quantity": 2
         }
     ],
     "123": [
