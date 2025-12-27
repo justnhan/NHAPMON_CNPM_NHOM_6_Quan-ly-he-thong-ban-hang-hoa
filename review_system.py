@@ -34,3 +34,38 @@ def has_purchased(username, product_name):
             if item["name"].lower() == product_name.lower():
                 return True
     return False
+def add_review(username, product_name):
+    if not has_purchased(username, product_name):
+        print("❌ Bạn chỉ có thể đánh giá sản phẩm đã mua!")
+        return
+
+    reviews = load_reviews()
+
+    if product_name not in reviews:
+        reviews[product_name] = []
+
+    # kiểm tra đã đánh giá chưa
+    for r in reviews[product_name]:
+        if r["user"] == username:
+            print("⚠️ Bạn đã đánh giá sản phẩm này rồi!")
+            return
+
+    try:
+        stars = int(input("Chấm sao (1-5): "))
+        if stars < 1 or stars > 5:
+            raise ValueError
+    except:
+        print("❌ Số sao không hợp lệ!")
+        return
+
+    comment = input("Nhận xét (có thể bỏ trống): ").strip()
+
+    reviews[product_name].append({
+        "user": username,
+        "stars": stars,
+        "comment": comment,
+        "date": datetime.now().strftime("%d/%m/%Y %H:%M")
+    })
+
+    save_reviews(reviews)
+    print("✅ Đánh giá đã được gửi!")
