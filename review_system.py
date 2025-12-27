@@ -14,3 +14,8 @@ def load_orders():
         with open(ORDER_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     return {}
+def load_reviews():
+    if os.path.exists(REVIEW_FILE):
+        with open(REVIEW_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
