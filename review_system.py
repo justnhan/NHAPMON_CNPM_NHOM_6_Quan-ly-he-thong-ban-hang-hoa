@@ -69,3 +69,21 @@ def add_review(username, product_name):
 
     save_reviews(reviews)
     print("✅ Đánh giá đã được gửi!")
+
+
+def show_reviews(product_name):
+    reviews = load_reviews()
+
+    print(f"\n=== ⭐ ĐÁNH GIÁ SẢN PHẨM: {product_name} ===")
+
+    if product_name not in reviews or not reviews[product_name]:
+        print("Chưa có đánh giá nào.")
+        return
+
+    for r in reviews[product_name]:
+        print("-" * 40)
+        print(f"Người mua : {r['user']}")
+        print(f"Số sao    : {r['stars']} ⭐")
+        if r["comment"]:
+            print(f"Nhận xét  : {r['comment']}")
+        print(f"Ngày      : {r['date']}")
