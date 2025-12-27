@@ -218,7 +218,8 @@ def search_product(username):
                 if (
                     isinstance(item, dict)
                     and all(k in item for k in ("name", "price", "quantity"))
-                    and item["name"].lower().startswith(keyword)
+                    and any(word.startswith(keyword) for word in item["name"].lower().split())
+
                 ):
                     matched_products.append(item)
 
