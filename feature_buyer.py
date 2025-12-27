@@ -465,3 +465,58 @@ def search_product_by_username():
 
     print("-" * (name_width + 30))
     print(f"📦 Tổng số sản phẩm: {len(seller_products)}")
+    
+def view_top_10_products():
+    products = load_products()
+
+    print("\n🔥 TOP 10 SẢN PHẨM BÁN CHẠY NHẤT 🔥")
+
+    if not products:
+        print("❌ Hiện chưa có sản phẩm nào!")
+        return
+
+    all_products = []
+
+    # 1. Gom tất cả sản phẩm
+    for seller, items in products.items():
+        if isinstance(items, list):
+            for item in items:
+                if isinstance(item, dict) and all(
+                    k in item for k in ("name", "price", "quantity")
+                ):
+                    # Nếu chưa có total_purchased thì gán = 0
+                    if "total_purchased" not in item:
+                        item["total_purchased"] = 0
+
+                    all_products.append(item)
+
+    if not all_products:
+        print("❌ Không có sản phẩm hợp lệ!")
+        return
+
+    # 2. Sắp xếp theo lượt bán (giảm dần)
+    all_products.sort(
+        key=lambda x: x.get("total_purchased", 0),
+        reverse=True
+    )
+
+    # 3. Lấy top 10
+    top_10 = all_products[:10]
+
+    # 4. Tính độ rộng cột tên
+    name_width = max(len(item["name"]) for item in top_10)
+    name_width = max(name_width, 20)
+
+    # 5. In bảng
+    print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Đã bán'}")
+    print("-" * (name_width + 35))
+
+    for idx, item in enumerate(top_10):
+        print(
+            f"{idx:<3} "
+            f"{item['name']:<{name_width}} "
+            f"{item['price']:<10} "
+            f"{item.get('total_purchased', 0)}"
+        )
+
+    print("-" * (name_width + 35))
