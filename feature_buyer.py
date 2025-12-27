@@ -171,98 +171,34 @@ def view_cart(username):
         print("↩ Trở lại menu.")
         return
 
-def add_to_cart(username):
-    products = load_products()
-    cart = load_cart()
+def add_to_cart(username, product, buy_qty):
+    carts = load_cart()          # carts là dict
 
-    # 1. Kiểm tra có sản phẩm không
-    if not products:
-        print("❌ Hiện chưa có sản phẩm nào!")
+    if username not in carts:
+        carts[username] = []
+
+    user_cart = carts[username]  # ✅ list đúng
+
+    # Check tồn kho
+    if buy_qty > product["quantity"]:
+        print("❌ Vượt quá tồn kho!")
         return
 
-    # 2. Gom toàn bộ sản phẩm vào 1 danh sách
-    all_products = []
-    for seller, items in products.items():
-        if isinstance(items, list):
-            for item in items:
-                # đảm bảo item hợp lệ
-                if all(k in item for k in ("name", "price", "quantity")):
-                    all_products.append(item)
-
-    # Không có sản phẩm hợp lệ
-    if not all_products:
-        print("❌ Không có sản phẩm hợp lệ!")
-        return
-
-    # 3. Tính độ rộng cột tên sản phẩm (an toàn)
-    name_width = max(
-        (len(item["name"]) for item in all_products),
-        default=20
-    )
-    name_width = max(name_width, 20)
-
-    # 4. In danh sách sản phẩm
-    print("\n=== DANH SÁCH SẢN PHẨM ===")
-    print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
-    print("-" * (name_width + 30))
-
-    for idx, item in enumerate(all_products):
-        print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
-
-    # 5. Nhập ID sản phẩm
-    try:
-        pid = int(input("\nNhập ID sản phẩm cần thêm: "))
-        if pid < 0 or pid >= len(all_products):
-            print("❌ ID sản phẩm không hợp lệ!")
-            return
-    except:
-        print("❌ ID sản phẩm không hợp lệ!")
-        return
-
-    product = all_products[pid]
-
-    # 6. Nhập số lượng
-    qty = input("Nhập số lượng muốn mua: ").strip()
-    if not qty.isdigit() or int(qty) <= 0:
-        print("❌ Số lượng phải là số > 0!")
-        return
-
-    qty = int(qty)
-
-    # 7. Kiểm tra tồn kho
-    if qty > product["quantity"]:
-        print("❌ Số lượng vượt quá tồn kho!")
-        return
-
-    # 8. Tạo giỏ hàng cho user nếu chưa có
-    if username not in cart:
-        cart[username] = []
-
-    # 9. Nếu sản phẩm đã có trong giỏ → cộng số lượng
-    for item in cart[username]:
+    for item in user_cart:       # ✅ item là dict
         if item["name"] == product["name"]:
-            if item["quantity"] + qty > product["quantity"]:
-                print("❌ Tổng số lượng trong giỏ vượt quá tồn kho!")
-                return
-
-            item["quantity"] += qty
-            save_cart(cart)
-            print("✅ Đã cập nhật số lượng sản phẩm trong giỏ!")
-            view_cart(username)
+            item["quantity"] += buy_qty
+            save_cart(carts)
+            print("✅ Đã cập nhật số lượng trong giỏ!")
             return
 
-    # 10. Nếu chưa có → thêm mới
-    cart[username].append({
+    user_cart.append({
         "name": product["name"],
         "price": product["price"],
-        "quantity": qty
+        "quantity": buy_qty
     })
 
-    save_cart(cart)
-    print("✅ Đã thêm sản phẩm vào giỏ hàng!")
-
-    # 11. Hiển thị lại giỏ hàng
-    view_cart(username)
+    save_cart(carts)
+    print("✅ Đã thêm vào giỏ hàng!")
 
 def search_product(username):
     products = load_products()
@@ -593,7 +529,7 @@ def search_product_by_username():
     print(f"📦 Tổng số sản phẩm: {len(seller_products)}")
 
     
-def view_top_10_products():
+def view_top_10_products(username):
     products = load_products()
 
     print("\n🔥 TOP 10 SẢN PHẨM BÁN CHẠY NHẤT 🔥")
@@ -604,50 +540,73 @@ def view_top_10_products():
 
     all_products = []
 
-    # 1. Gom tất cả sản phẩm
     for seller, items in products.items():
         if isinstance(items, list):
             for item in items:
                 if isinstance(item, dict) and all(
                     k in item for k in ("name", "price", "quantity")
                 ):
-                    # Nếu chưa có total_purchased thì gán = 0
                     if "total_purchased" not in item:
                         item["total_purchased"] = 0
-
                     all_products.append(item)
 
     if not all_products:
         print("❌ Không có sản phẩm hợp lệ!")
         return
 
-    # 2. Sắp xếp theo lượt bán (giảm dần)
     all_products.sort(
         key=lambda x: x.get("total_purchased", 0),
         reverse=True
     )
 
-    # 3. Lấy top 10
     top_10 = all_products[:10]
 
-    # 4. Tính độ rộng cột tên
     name_width = max(len(item["name"]) for item in top_10)
     name_width = max(name_width, 20)
 
-    # 5. In bảng
-    print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Đã bán'}")
-    print("-" * (name_width + 35))
+    print(f"\n{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn'} {'Đã bán'}")
+    print("-" * (name_width + 45))
 
     for idx, item in enumerate(top_10):
         print(
             f"{idx:<3} "
             f"{item['name']:<{name_width}} "
             f"{item['price']:<10} "
+            f"{item['quantity']:<4} "
             f"{item.get('total_purchased', 0)}"
         )
 
-    print("-" * (name_width + 35))
+    print("-" * (name_width + 45))
 
+    # ====== CHỌN ID ======
+    choice = input("\n🛒 Nhập ID sản phẩm (Enter để thoát): ").strip()
+    if choice == "":
+        return
+
+    if not choice.isdigit():
+        print("❌ ID không hợp lệ!")
+        return
+
+    choice = int(choice)
+    if choice < 0 or choice >= len(top_10):
+        print("❌ ID không tồn tại!")
+        return
+
+    selected_product = top_10[choice]
+
+    # ====== NHẬP SỐ LƯỢNG ======
+    qty = input(f"📦 Nhập số lượng (tối đa {selected_product['quantity']}): ").strip()
+
+    if not qty.isdigit():
+        print("❌ Số lượng không hợp lệ!")
+        return
+
+    qty = int(qty)
+    if qty <= 0:
+        print("❌ Số lượng phải lớn hơn 0!")
+        return
+
+    add_to_cart(username, selected_product, qty)
 
 def top_up_balance(username):
     users = load_users()
