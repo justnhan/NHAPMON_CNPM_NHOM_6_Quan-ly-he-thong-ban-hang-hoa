@@ -42,12 +42,12 @@ def buyer_giaodien():
     print(f"{CYAN}║        MENU NGƯỜI MUA      ║{RESET}")
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
-    print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm (Đề xuất)")
-    print(f"{YELLOW}2.{RESET} Tìm kiếm sản phẩm")
-    print(f"{YELLOW}3.{RESET} Xem giỏ hàng")
-    print(f"{YELLOW}4.{RESET} Xem đơn hàng đã mua")
-    print(f"{YELLOW}5.{RESET} Thêm sản phẩm vào giỏ hàng")
-    print(f"{YELLOW}6.{RESET} Tìm kiếm sản phẩm theo tên shop")
+    print(f"{YELLOW}1.{RESET} Xem toàn bộ sản phẩm hệ thống")
+    print(f"{YELLOW}2.{RESET} Xem danh sách sản phẩm (theo đề xuất)")
+    print(f"{YELLOW}3.{RESET} Tìm kiếm sản phẩm theo tên hàng")
+    print(f"{YELLOW}4.{RESET} Tìm kiếm sản phẩm theo shop.")
+    print(f"{YELLOW}5.{RESET} Xem giỏ hàng của tôi")
+    print(f"{YELLOW}6.{RESET} Xem đơn hàng đã mua")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -82,23 +82,23 @@ def buyer_menu(username):
     while True:
         choice = buyer_giaodien()   # giữ nguyên hàm này
         if choice == "1":
-            view_top_10_products()
+            view_all_products()
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
-            search_product(username)
+            view_top_10_products()
             tiep_tuc()
         elif choice == "3":
-            view_cart(username)
+            search_product(username)
             tiep_tuc()
         elif choice == "4":
-            view_order_history(username)
+            search_product_by_username()
             tiep_tuc()
         elif choice == "5":
-            add_to_cart(username)
+            view_cart(username)
             tiep_tuc()
         elif choice == "6":
-            search_product_by_username()
+            view_order_history(username)
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
