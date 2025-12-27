@@ -340,13 +340,19 @@ def place_order(username):
             print(f"❌ Sản phẩm '{cart_item['name']}' không còn tồn tại!")
             return
 
-    # 3. Trừ tồn kho
+    # 3. Trừ tồn kho + cộng total_purchased
     for cart_item in user_cart:
         for seller, items in products.items():
             if isinstance(items, list):
                 for product in items:
                     if product["name"] == cart_item["name"]:
+                        # Trừ tồn kho
                         product["quantity"] -= cart_item["quantity"]
+
+                        # Cộng dồn số lượng đã mua
+                        if "total_purchased" not in product:
+                            product["total_purchased"] = 0
+                        product["total_purchased"] += cart_item["quantity"]
 
     # 4. Tạo mã đơn hàng
     order_id = f"DH{int(time.time())}{str(uuid.uuid4())[:4]}"
@@ -354,7 +360,7 @@ def place_order(username):
     # 5. Tính tổng tiền
     total = sum(item["price"] * item["quantity"] for item in user_cart)
 
-          # 6. Tạo đơn hàng
+    # 6. Tạo đơn hàng
     order_data = {
         "order_id": order_id,
         "username": username,
@@ -369,10 +375,9 @@ def place_order(username):
         orders[username] = []
 
     orders[username].append(order_data)
-
     save_orders(orders)
 
-    # 8. Lưu lại kho sau khi trừ
+    # 8. Lưu lại kho sau khi cập nhật
     with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
         json.dump(products, f, ensure_ascii=False, indent=4)
 
@@ -380,10 +385,11 @@ def place_order(username):
     cart[username] = []
     save_cart(cart)
 
-    # 10. Thông báo thành công
+    # 10. Thông báo
     print("\n🎉 ĐẶT HÀNG THÀNH CÔNG!")
     print(f"🧾 Mã đơn hàng: {order_id}")
     print(f"💰 Tổng tiền: {total} VND")
+
 
 def view_all_products():
     products = load_products()
@@ -545,3 +551,5 @@ def view_top_10_products():
         )
 
     print("-" * (name_width + 35))
+
+
