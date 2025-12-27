@@ -1,12 +1,10 @@
 {
     "123": [
- 
-
-{
+        {
             "name": "Chuột Logitech G304 Lightspeed",
             "price": 650000,
-            "quantity": 30,
-            "total_purchased": 15
+            "quantity": 29,
+            "total_purchased": 16
         },
         {
             "name": "Bàn phím cơ Keychron K6",
@@ -40,8 +38,7 @@
         }
     ],
     "dangdan1": [
-
-  {
+        {
             "name": "Tai nghe Apple AirPods Pro 2",
             "price": 4990000,
             "quantity": 16,
@@ -56,8 +53,8 @@
         {
             "name": "Cáp sạc Anker PowerLine III Type-C",
             "price": 320000,
-            "quantity": 60,
-            "total_purchased": 6
+            "quantity": 59,
+            "total_purchased": 7
         },
         {
             "name": "Loa Bluetooth JBL Charge 5",
