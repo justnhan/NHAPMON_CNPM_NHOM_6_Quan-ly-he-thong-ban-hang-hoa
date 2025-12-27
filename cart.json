@@ -17,5 +17,12 @@
             "price": 650000,
             "quantity": 1
         }
+    ],
+    "123": [
+        {
+            "name": "Chuột Logitech G304 Lightspeed",
+            "price": 650000,
+            "quantity": 1
+        }
     ]
 }
