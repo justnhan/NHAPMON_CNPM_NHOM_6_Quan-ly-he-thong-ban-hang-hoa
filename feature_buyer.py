@@ -1,6 +1,7 @@
 import json
 import os
 from utils import format_money_vn
+from seller_notification import add_notification
 
 from order_buyer import *
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
@@ -341,6 +342,21 @@ def place_order(username):
 
     orders[username].append(order_data)
     save_orders(orders)
+     # 🔔 THÔNG BÁO ĐƠN HÀNG CHO NGƯỜI BÁN (THÊM Ở ĐÂY)
+    # =================================================
+    for cart_item in user_cart:
+        for seller, items in products.items():
+            if isinstance(items, list):
+                for product in items:
+                    if product["name"] == cart_item["name"]:
+                        add_notification(
+                            seller=seller,
+                            buyer=username,
+                            product_name=product["name"],
+                            quantity=cart_item["quantity"],
+                            total=cart_item["quantity"] * product["price"],
+                            order_id=order_id
+                        )
 
     # 8. Lưu lại kho sau khi cập nhật
     with open(PRODUCT_FILE, "w", encoding="utf-8") as f:

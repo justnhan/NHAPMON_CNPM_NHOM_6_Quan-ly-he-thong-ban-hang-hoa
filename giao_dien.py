@@ -3,7 +3,7 @@ from feature_buyer import *
 from order_buyer import *
 from feature_admin import *
 from utils import format_money_vn
-
+from seller_notification import *
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 DATA_FILE = os.path.join(BASE_DIR, "users.json")       # users.json nằm cùng thư mục
@@ -107,6 +107,7 @@ def seller_giaodien():
     print(f"{YELLOW}3.{RESET} Sửa thông tin sản phẩm")
     print(f"{YELLOW}4.{RESET} Xóa sản phẩm")
     print(f"{YELLOW}5.{RESET} Xem đơn hàng của cửa hàng")
+    print(f"{YELLOW}6.{RESET} Thông báo đơn hàng")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -160,6 +161,10 @@ def seller_menu(username):
             tiep_tuc()
         elif choice == "5":
             print("Xem đơn hàng - chưa hoàn thiện")
+            tiep_tuc()
+        elif choice == "6":
+            view_notifications(username)
+            update_order_status(username)
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
