@@ -2,68 +2,80 @@
     "123": [
  
 
-        {
+{
             "name": "Chuột Logitech G304 Lightspeed",
             "price": 650000,
-            "quantity": 3
+            "quantity": 3,
+            "total_purchased": 3
         },
         {
             "name": "Bàn phím cơ Keychron K6",
             "price": 1900000,
-            "quantity": 1
+            "quantity": 1,
+            "total_purchased": 1
         },
         {
             "name": "Tai nghe Sony WH-CH520",
             "price": 990000,
-            "quantity": 2
+            "quantity": 2,
+            "total_purchased": 2
         },
         {
             "name": "USB SanDisk Ultra Flair 64GB",
             "price": 220000,
-            "quantity": 5
+            "quantity": 5,
+            "total_purchased": 5
         },
         {
             "name": "Ổ cứng SSD Samsung 870 EVO 500GB",
             "price": 1350000,
-            "quantity": 4
+            "quantity": 4,
+            "total_purchased": 4
         },
         {
             "name": "Lót chuột Logitech Studio Series",
             "price": 350000,
-            "quantity": 2
+            "quantity": 2,
+            "total_purchased": 2
         }
     ],
     "dangdan1": [
 
-        {
+  {
             "name": "Tai nghe Apple AirPods Pro 2",
             "price": 4990000,
-            "quantity": 2
+            "quantity": 2,
+            "total_purchased": 2
         },
         {
             "name": "Sạc dự phòng Anker PowerCore Slim 10000",
             "price": 650000,
-            "quantity": 3
+            "quantity": 3,
+            "total_purchased": 3
         },
         {
             "name": "Cáp sạc Anker PowerLine III Type-C",
             "price": 320000,
-            "quantity": 6
+            "quantity": 6,
+            "total_purchased": 6
         },
         {
             "name": "Loa Bluetooth JBL Charge 5",
             "price": 3200000,
-            "quantity": 1
+            "quantity": 1,
+            "total_purchased": 1
         },
         {
             "name": "Webcam Logitech C920 HD Pro",
             "price": 1500000,
-            "quantity": 2
+            "quantity": 2,
+            "total_purchased": 2
         },
         {
             "name": "Chuột gaming Razer DeathAdder Essential",
             "price": 490000,
-            "quantity": 4
+            "quantity": 4,
+            "total_purchased": 4
         }
     ]
 }
