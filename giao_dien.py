@@ -1,9 +1,34 @@
 from feature_seller import *
 from feature_buyer import *
 from order_buyer import *
-from ql_tai_khoan import load_users
 from feature_admin import *
 from utils import format_money_vn
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
+DATA_FILE = os.path.join(BASE_DIR, "users.json")       # users.json nằm cùng thư mục
+
+# --- TẢI DỮ LIỆU NGƯỜI DÙNG ---
+if os.path.exists(DATA_FILE):
+    try:
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            users = json.load(f)
+    except Exception as e:
+        print("LỖI LOAD JSON:", e)
+        print("→ File users.json có vấn đề, hệ thống sẽ bỏ qua và dùng dữ liệu rỗng.")
+        users = {}
+
+else:
+    users = {}
+
+def load_users():
+    if not os.path.exists(DATA_FILE):
+        return {}
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return {}
 
 # --- Hàm giao diện người mua và người bán ---
 
