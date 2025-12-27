@@ -36,28 +36,47 @@ def view_products_seller(username):
     print(f"\n{CYAN}====== ĐÂY LÀ DANH SÁCH SẢN PHẨM CỦA BẠN ======{RESET}\n")
 
     # Kiểm tra có sản phẩm không
-    if username not in products or len(products[username]) == 0:
+    if username not in products or not products[username]:
         print(f"{RED}❌ Bạn chưa có sản phẩm nào.{RESET}")
         return
 
+    seller_products = products[username]
+
+    # 🔹 Tính độ rộng cột tên (auto, tối thiểu 25)
+    name_width = max(
+        len(item.get("name", "")) for item in seller_products
+    )
+    name_width = max(name_width, 25)
+
     # Header
-    print(f"{YELLOW}{'-'*60}{RESET}")
-    print(f"{GREEN}{'ID':<5} {'Tên sản phẩm':<25} {'Giá':<12} {'Số lượng':<10}{RESET}")
-    print(f"{YELLOW}{'-'*60}{RESET}")
+    print(f"{YELLOW}{'-' * (name_width + 45)}{RESET}")
+    print(
+        f"{GREEN}"
+        f"{'ID':<5} "
+        f"{'Tên sản phẩm':<{name_width}} "
+        f"{'Giá':>12} "
+        f"{'Tồn kho':>10} "
+        f"{'Đã bán':>10}"
+        f"{RESET}"
+    )
+    print(f"{YELLOW}{'-' * (name_width + 45)}{RESET}")
 
     # In sản phẩm
-    for idx, item in enumerate(products[username], start=1):
+    for idx, item in enumerate(seller_products, start=1):
         name = item.get("name", "Không tên")
         price = item.get("price", 0)
         qty = item.get("quantity", 0)
+        sold = item.get("total_purchased", 0)
 
-        print(f"{idx:<5} {name:<25} {price:<12} {qty:<10}")
+        print(
+            f"{idx:<5} "
+            f"{name:<{name_width}} "
+            f"{price:>12,} "
+            f"{qty:>10} "
+            f"{sold:>10}"
+        )
 
-    print(f"{YELLOW}{'-'*60}{RESET}")
-
-
-
-
+    print(f"{YELLOW}{'-' * (name_width + 45)}{RESET}")
 
 
 def add_product(username):
