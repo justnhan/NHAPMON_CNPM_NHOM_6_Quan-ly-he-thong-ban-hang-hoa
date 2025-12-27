@@ -68,3 +68,38 @@ def view_notifications(seller):
         print(f"Trạng thái: {n['order_status']}")
         print(f"Thời gian: {n['time']}")
 
+# ---------- CẬP NHẬT TRẠNG THÁI ----------
+def update_order_status(seller):
+    notifications = load_notifications()
+
+    if seller not in notifications or not notifications[seller]:
+        print("❌ Không có đơn hàng!")
+        return
+
+    view_notifications(seller)
+
+    try:
+        idx = int(input("\nNhập ID đơn hàng cần cập nhật: "))
+        order = notifications[seller][idx]
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    print("\n1. Đã giao")
+    print("2. Hoàn thành")
+    print("3. Hủy đơn")
+
+    choice = input("Chọn: ")
+
+    if choice == "1":
+        order["delivery_status"] = "Đã giao"
+    elif choice == "2":
+        order["order_status"] = "Hoàn thành"
+    elif choice == "3":
+        order["order_status"] = "Đã hủy"
+    else:
+        print("❌ Lựa chọn không hợp lệ!")
+        return
+
+    save_notifications(notifications)
+    print("✅ Cập nhật trạng thái thành công!")
