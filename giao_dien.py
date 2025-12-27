@@ -1,7 +1,7 @@
 from feature_seller import *
 from feature_buyer import *
 from order_buyer import *
-from ql_tai_khoan import *
+from ql_tai_khoan import load_users
 from feature_admin import *
 from utils import format_money_vn
 
@@ -12,6 +12,12 @@ def buyer_welcome(TenDangNhap):
     CYAN = "\033[96m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
+    users = load_users()   
+
+    if TenDangNhap not in users:
+        print("❌ Lỗi dữ liệu tài khoản!")
+        return
+
     balance = users[TenDangNhap]["balance"]
     balance_str = format_money_vn(balance)
     # Lời chào và số dư
@@ -24,6 +30,11 @@ def seller_welcome(TenDangNhap):
     CYAN = "\033[96m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
+    users = load_users()
+
+    if TenDangNhap not in users:
+        print("❌ Lỗi dữ liệu tài khoản!")
+        return
     balance = users[TenDangNhap]["balance"]
     balance_str = format_money_vn(balance)
     # Lời chào (không khung)
@@ -135,6 +146,12 @@ def admin_welcome(TenDangNhap):
     RED = "\033[91m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
+    users = load_users()
+
+    if TenDangNhap not in users:
+        print("❌ Lỗi dữ liệu tài khoản!")
+        return
+
     balance = users[TenDangNhap]["balance"]
     balance_str = format_money_vn(balance)
     print(f"\nXin chào {RED}ông chủ{RESET}  "

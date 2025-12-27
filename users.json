@@ -40,5 +40,12 @@
         "phone": "1",
         "role": "buyer",
         "balance": 0
+    },
+    "124": {
+        "password": "123",
+        "email": "1@gmail.com",
+        "phone": "123",
+        "role": "buyer",
+        "balance": 0
     }
 }

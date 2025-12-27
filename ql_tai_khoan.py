@@ -20,9 +20,16 @@ if os.path.exists(DATA_FILE):
 else:
     users = {}
 
-
+def load_users():
+    if not os.path.exists(DATA_FILE):
+        return {}
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return {}
 # lưu thông tin tài khoản
-def save_users():
+def save_users(users):  # ⭐ TRUYỀN users VÀO
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(users, f, ensure_ascii=False, indent=4)
 
@@ -35,9 +42,9 @@ def is_valid_gmail(email):
     """
     pattern = r"^[a-zA-Z0-9._%+-]+@gmail\.com$"
     return re.match(pattern, email) is not None
-def register():
+def register(): 
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
-
+    users = load_users() 
     username = input("Tên tài khoản: ").strip()
     if username in users:
         print("❌ Tài khoản đã tồn tại!")
@@ -79,6 +86,7 @@ def register():
 
 def login():
     print("\n--- ĐĂNG NHẬP ---")
+    users = load_users()  
     username = input("Tên tài khoản: ").strip()
     password = input("Mật khẩu: ").strip()
 
