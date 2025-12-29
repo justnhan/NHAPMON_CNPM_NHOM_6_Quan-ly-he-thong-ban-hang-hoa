@@ -160,7 +160,7 @@ def buyer_menu(username):
             tiep_tuc()
         elif choice == "7":
             xoa_man_hinh()
-            view_discounts(username)
+            view_discounts()
             tiep_tuc()
         elif choice == "8":
             xoa_man_hinh()
