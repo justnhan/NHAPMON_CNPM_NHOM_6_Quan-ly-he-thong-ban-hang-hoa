@@ -4,7 +4,23 @@ from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 NOTI_FILE = os.path.join(BASE_DIR, "seller_notifications.json")
+ORDER_FILE = os.path.join(BASE_DIR, "orders.json")
 
+
+
+# --------- Load & Save đơn hàng ---------
+def load_orders():
+    if os.path.exists(ORDER_FILE):
+        try:
+            with open(ORDER_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File đơn hàng lỗi. Tạo mới...")
+            return {}
+    return {}
+def save_orders(data):
+    with open(ORDER_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 # ---------- LOAD / SAVE ----------
 def load_notifications():
     if os.path.exists(NOTI_FILE):
@@ -81,6 +97,7 @@ def update_order_status(seller):
     try:
         idx = int(input("\nNhập ID đơn hàng cần cập nhật: "))
         order = notifications[seller][idx]
+       
     except:
         print("❌ ID không hợp lệ!")
         return
@@ -93,6 +110,7 @@ def update_order_status(seller):
 
     if choice == "1":
         order["delivery_status"] = "Đã giao"
+
     elif choice == "2":
         order["order_status"] = "Hoàn thành"
     elif choice == "3":

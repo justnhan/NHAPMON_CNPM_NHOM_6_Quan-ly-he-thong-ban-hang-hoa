@@ -6,6 +6,7 @@ import random
 from utils import format_money_vn
 from seller_notification import add_notification
 from order_buyer import *
+from review_system import *
 
 
 # khởi tạo đường dẫn cho file dữ liệu
@@ -15,6 +16,24 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file 
 CART_FILE = os.path.join(BASE_DIR, "cart.json")  # cart.json nằm cùng thư mục
 
 PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")     # products.json nằm cùng thư mục
+
+REVIEW_FILE = os.path.join(BASE_DIR, "reviews.json")
+
+# ------- Hàm tải dữ liệu Đánh giá -------
+def load_reviews():
+    if os.path.exists(REVIEW_FILE):
+        try:
+            with open(REVIEW_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File đánh giá lỗi. Tạo mới...")
+            return {}
+    return {}
+
+def save_reviews(data):
+    with open(REVIEW_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
 
 
 # ------- Hàm tải dữ liệu Sản phẩm -------
@@ -385,6 +404,8 @@ def place_order(username):
     print("\n🎉 ĐẶT HÀNG THÀNH CÔNG!")
     print(f"🧾 Mã đơn hàng: {order_id}")
     print(f"💰 Tổng tiền: {total} VND")
+
+
 
 
 
