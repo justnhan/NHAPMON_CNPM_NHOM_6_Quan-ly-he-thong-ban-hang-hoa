@@ -93,6 +93,8 @@ def buyer_giaodien():
     print(f"{YELLOW}4.{RESET} Tìm kiếm sản phẩm theo shop.")
     print(f"{YELLOW}5.{RESET} Xem giỏ hàng của tôi")
     print(f"{YELLOW}6.{RESET} Xem đơn hàng đã mua")
+    print(f"{YELLOW}7.{RESET} Xem Toàn bộ mã giảm giá hiện có")
+    print(f"{YELLOW}8.{RESET} Đánh giá sản phẩm đã mua")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -118,6 +120,9 @@ def seller_giaodien():
     print(f"{YELLOW}5.{RESET} Xem đánh giá toàn bộ sản phẩm")
     print(f"{YELLOW}6.{RESET} Xem đánh giá một sản phẩm")
     print(f"{YELLOW}7.{RESET} Xem các Thông báo đơn hàng và sửa trạng thái đơn hàng")
+    print(f"{YELLOW}8.{RESET} Tạo mã giảm giá theo phần trăm cho sản phẩm")
+    print(f"{YELLOW}9.{RESET} Tạo mã giảm giá mức tiền trừ cố định cho sản phẩm")
+    print(f"{YELLOW}10.{RESET} Xóa mã giảm giá khỏi toàn bộ sản phẩm")
     print(f"{YELLOW}0.{RESET} Đăng xuất")
 
     print("\nBạn muốn làm gì?")
@@ -152,6 +157,14 @@ def buyer_menu(username):
         elif choice == "6":
             xoa_man_hinh()
             view_order_history(username)
+            tiep_tuc()
+        elif choice == "7":
+            xoa_man_hinh()
+            view_discounts(username)
+            tiep_tuc()
+        elif choice == "8":
+            xoa_man_hinh()
+            review_product(username)
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
@@ -189,8 +202,19 @@ def seller_menu(username):
             tiep_tuc()
         elif choice == "7":
             xoa_man_hinh()
-            view_notifications(username)
             update_order_status(username)
+            tiep_tuc()
+        elif choice == "8":
+            xoa_man_hinh    ()
+            apply_discount_seller()
+            tiep_tuc()
+        elif choice == "9":
+            xoa_man_hinh()
+            apply_fixed_discount_seller()
+            tiep_tuc()
+        elif choice == "10":
+            xoa_man_hinh()
+            remove_discount_seller()
             tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")

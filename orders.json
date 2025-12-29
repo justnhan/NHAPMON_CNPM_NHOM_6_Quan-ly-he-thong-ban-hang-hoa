@@ -71,6 +71,20 @@
             "total": 4990000,
             "status": "Đã đặt",
             "order_date": "29/12/2025 15:56:29"
+        },
+        {
+            "order_id": "1234",
+            "username": "nhan",
+            "items": [
+                {
+                    "name": "Tai nghe Apple AirPods Pro 2",
+                    "price": 4990000,
+                    "quantity": 1
+                }
+            ],
+            "total": 4990000,
+            "status": "Đã đặt",
+            "order_date": "29/12/2025 15:56:29"
         }
     ]
 }

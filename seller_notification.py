@@ -86,38 +86,72 @@ def view_notifications(seller):
 
 # ---------- CẬP NHẬT TRẠNG THÁI ----------
 def update_order_status(seller):
+    # 1. Load dữ liệu từ cả hai file
     notifications = load_notifications()
+    all_orders = load_orders() # Giả sử bạn có hàm này để load file order
 
     if seller not in notifications or not notifications[seller]:
-        print("❌ Không có đơn hàng!")
+        print("❌ Bạn không có thông báo đơn hàng nào!")
         return
 
+    # Hiển thị danh sách cho người bán chọn
     view_notifications(seller)
 
     try:
-        idx = int(input("\nNhập ID đơn hàng cần cập nhật: "))
-        order = notifications[seller][idx]
-       
-    except:
-        print("❌ ID không hợp lệ!")
+        idx = int(input("\nChọn số thứ tự đơn hàng cần cập nhật (từ 0): "))
+        if idx < 0 or idx >= len(notifications[seller]):
+            raise ValueError
+            
+        # Lấy thông tin đơn hàng từ notification
+        noti_item = notifications[seller][idx]
+        target_order_id = noti_item["order_id"]
+        buyer_name = noti_item["buyer"]
+        
+    except (ValueError, IndexError):
+        print("❌ Lựa chọn không hợp lệ!")
         return
 
-    print("\n1. Đã giao")
+    print(f"\n--- Cập nhật đơn hàng: {target_order_id} ---")
+    print("1. Đã giao")
     print("2. Hoàn thành")
     print("3. Hủy đơn")
+    choice = input("Chọn (1-3): ")
 
-    choice = input("Chọn: ")
+    # 2. Xử lý cập nhật trạng thái
+    new_delivery_status = noti_item["delivery_status"]
+    new_order_status = noti_item["order_status"]
 
     if choice == "1":
-        order["delivery_status"] = "Đã giao"
-
+        new_delivery_status = "Đã giao"
     elif choice == "2":
-        order["order_status"] = "Hoàn thành"
+        new_order_status = "Hoàn thành"
+        new_delivery_status = "Đã giao" # Thường hoàn thành thì mặc định là đã giao
     elif choice == "3":
-        order["order_status"] = "Đã hủy"
+        new_order_status = "Đã hủy"
     else:
         print("❌ Lựa chọn không hợp lệ!")
         return
 
+    # 3. Cập nhật vào cấu trúc Notifications (File Noti)
+    noti_item["delivery_status"] = new_delivery_status
+    noti_item["order_status"] = new_order_status
+
+    # 4. Cập nhật vào cấu trúc Orders (File Order của người mua)
+    # Tìm đơn hàng khớp ID trong danh sách của người mua
+    if buyer_name in all_orders:
+        for order in all_orders[buyer_name]:
+            if order["order_id"] == target_order_id:
+                # Map trạng thái tương ứng sang file Order
+                if choice == "1":
+                    order["status"] = "Đang giao hàng"
+                elif choice == "2":
+                    order["status"] = "Hoàn thành"
+                elif choice == "3":
+                    order["status"] = "Đã hủy"
+                break
+
+    # 5. Lưu lại cả hai file
     save_notifications(notifications)
-    print("✅ Cập nhật trạng thái thành công!")
+    save_orders(all_orders) # Giả sử bạn có hàm này
+    
+    print(f"✅ Đã cập nhật đơn hàng {target_order_id} thành: {new_order_status} ({new_delivery_status})")

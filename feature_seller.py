@@ -7,6 +7,25 @@ PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")       # products.json n�
 
 REVIEW_FILE = os.path.join(BASE_DIR, "reviews.json")
 
+DISCOUNT_FILE = os.path.join(BASE_DIR, "discount.json")
+
+def load_discount():
+    if os.path.exists(DISCOUNT_FILE):
+        try:
+            with open(DISCOUNT_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File discount lỗi. Tạo mới...")
+    return {
+        "type": "percent",
+        "value": 0,
+        "active": False
+    }
+
+def save_discount(data):
+    with open(DISCOUNT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
 # ------- Hàm tải dữ liệu Đánh giá -------
 def load_reviews():
     if os.path.exists(REVIEW_FILE):
@@ -334,3 +353,62 @@ def viewsp(username):
 
     # 5. Xem đánh giá
     view_product_reviews(product_name)
+
+# Thêm mã giảm giá theo phần trăm cho toàn bộ sản phẩm của seller
+def apply_discount_seller(username, percent):
+    products = load_products()
+
+    if username not in products or not products[username]:
+        print("❌ Bạn chưa có sản phẩm nào.")
+        return
+
+    if percent <= 0 or percent >= 100:
+        print("❌ % giảm không hợp lệ.")
+        return
+
+    for item in products[username]:
+        # Lưu giá gốc nếu chưa có
+        if "original_price" not in item:
+            item["original_price"] = item["price"]
+
+        item["price"] = int(item["original_price"] * (100 - percent) / 100)
+
+    save_products(products)
+    print(f"✅ Đã giảm {percent}% cho toàn bộ sản phẩm.")
+
+# thêm mã giảm giá theo số tiền cố định
+def apply_fixed_discount_seller(username, amount):
+    products = load_products()
+
+    if username not in products or not products[username]:
+        print("❌ Bạn chưa có sản phẩm nào.")
+        return
+
+    if amount <= 0:
+        print("❌ Số tiền giảm không hợp lệ.")
+        return
+
+    for item in products[username]:
+        if "original_price" not in item:
+            item["original_price"] = item["price"]
+
+        item["price"] = max(0, item["original_price"] - amount)
+
+    save_products(products)
+    print(f"✅ Đã giảm {amount:,} cho toàn bộ sản phẩm.")
+
+def remove_discount_seller(username):
+    products = load_products()
+
+    if username not in products or not products[username]:
+        print("❌ Bạn chưa có sản phẩm nào.")
+        return
+
+    for item in products[username]:
+        if "original_price" in item:
+            item["price"] = item["original_price"]
+            del item["original_price"]
+
+    save_products(products)
+    print("✅ Đã khôi phục giá gốc cho toàn bộ sản phẩm.")
+

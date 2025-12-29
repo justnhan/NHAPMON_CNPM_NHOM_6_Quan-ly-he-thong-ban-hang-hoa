@@ -27,14 +27,21 @@ def save_reviews(data):
 def has_purchased(username, product_name):
     orders = load_orders()
 
-    if username not in orders:
-        return False
+    for order in orders:
+        if order.get("username") != username:
+            continue
 
-    for order in orders[username]:
-        for item in order["items"]:
-            if item["name"].lower() == product_name.lower():
+        # CHỈ cho đánh giá khi HOÀN THÀNH
+        if order.get("status", "").strip().lower() != "hoàn thành":
+            continue
+
+        for item in order.get("items", []):
+            if item.get("name", "").strip().lower() == product_name.strip().lower():
                 return True
+
     return False
+
+
 def add_review(username, product_name):
     if not has_purchased(username, product_name):
         print("❌ Bạn chỉ có thể đánh giá sản phẩm đã mua!")
@@ -93,15 +100,15 @@ def show_reviews(product_name):
 def edit_or_delete_review(username, product_name):
     reviews = load_reviews()
 
-    if product_name not in reviews:
+    if product_name not in reviews or not reviews[product_name]:
         print("❌ Không có đánh giá.")
         return
 
-    for r in reviews[product_name]:
-        if r["user"] == username:
+    for idx, r in enumerate(reviews[product_name]):
+        if r.get("user") == username:
             print("\n1. Sửa đánh giá")
             print("2. Xóa đánh giá")
-            choice = input("Chọn: ")
+            choice = input("Chọn: ").strip()
 
             if choice == "1":
                 try:
@@ -122,9 +129,13 @@ def edit_or_delete_review(username, product_name):
                 return
 
             elif choice == "2":
-                reviews[product_name].remove(r)
+                del reviews[product_name][idx]
                 save_reviews(reviews)
                 print("🗑️ Đã xóa đánh giá!")
+                return
+
+            else:
+                print("❌ Lựa chọn không hợp lệ!")
                 return
 
     print("❌ Bạn chưa đánh giá sản phẩm này.")
