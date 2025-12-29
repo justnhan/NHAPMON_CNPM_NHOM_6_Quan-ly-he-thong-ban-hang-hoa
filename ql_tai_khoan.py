@@ -42,6 +42,8 @@ def is_valid_gmail(email):
     """
     pattern = r"^[a-zA-Z0-9._%+-]+@gmail\.com$"
     return re.match(pattern, email) is not None
+
+
 def register(): 
     print("\n--- ĐĂNG KÝ TÀI KHOẢN ---")
     users = load_users() 
@@ -79,7 +81,7 @@ def register():
         "balance": 0
 }
 
-    save_users()
+    save_users(users)
     print("✅ Đăng ký thành công vui lòng đăng nhập lại (Nhấn Enter để quay về)!")
     input()
     

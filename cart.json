@@ -1,19 +1,12 @@
 {
-    "nhan": [
-        {
-            "name": "Webcam Logitech C920 HD Pro",
-            "price": 1500000,
-            "quantity": 1
-        }
-    ],
-    "dangdan": [],
+    "nhan": [],
     "123": [
         {
             "name": "Chuột Logitech G304 Lightspeed",
             "price": 650000,
             "quantity": 20
         }
-    ]
+    ],
     "dangdan": [
         {
             "name": "Lót chuột Logitech Studio Series",
@@ -30,6 +23,5 @@
             "price": 3200000,
             "quantity": 2
         }
-    ],
-    "123": []
+    ]
 }
