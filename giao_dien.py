@@ -206,11 +206,13 @@ def seller_menu(username):
             tiep_tuc()
         elif choice == "8":
             xoa_man_hinh    ()
-            apply_discount_seller()
+            percent = float(input("Nhập số lượng phần trăm giảm:"))
+            apply_discount_seller(username, percent)
             tiep_tuc()
         elif choice == "9":
             xoa_man_hinh()
-            apply_fixed_discount_seller()
+            amount = int(input("Nhập số lượng giảm"))
+            apply_fixed_discount_seller(username,amount)
             tiep_tuc()
         elif choice == "10":
             xoa_man_hinh()
