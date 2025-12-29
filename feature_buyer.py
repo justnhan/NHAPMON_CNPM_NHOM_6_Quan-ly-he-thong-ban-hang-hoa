@@ -6,6 +6,7 @@ import random
 from utils import format_money_vn
 from seller_notification import add_notification
 from order_buyer import *
+from review_system import *
 
 
 # khởi tạo đường dẫn cho file dữ liệu
@@ -15,6 +16,43 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file 
 CART_FILE = os.path.join(BASE_DIR, "cart.json")  # cart.json nằm cùng thư mục
 
 PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")     # products.json nằm cùng thư mục
+
+REVIEW_FILE = os.path.join(BASE_DIR, "reviews.json")
+
+DISCOUNT_FILE = os.path.join(BASE_DIR, "discount.json")
+
+# ------- Hàm tải dữ liệu Giảm giá -------
+def load_discount():
+    if os.path.exists(DISCOUNT_FILE):
+        try:
+            with open(DISCOUNT_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File discount lỗi. Tạo mới...")
+    return {
+        "type": "percent",
+        "value": 0,
+        "active": False
+    }
+
+def save_discount(data):
+    with open(DISCOUNT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+# ------- Hàm tải dữ liệu Đánh giá -------
+def load_reviews():
+    if os.path.exists(REVIEW_FILE):
+        try:
+            with open(REVIEW_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File đánh giá lỗi. Tạo mới...")
+            return {}
+    return {}
+
+def save_reviews(data):
+    with open(REVIEW_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
 
 
 # ------- Hàm tải dữ liệu Sản phẩm -------
@@ -388,6 +426,8 @@ def place_order(username):
 
 
 
+
+
 def view_all_products(username):
     products = load_products()
 
@@ -441,7 +481,22 @@ def view_all_products(username):
         print("-" * (name_width + 35))
 
         # ====== CHỌN ID ======
-        choice = input("\n🛒 Nhập ID sản phẩm để thêm vào giỏ (Enter để bỏ qua): ").strip()
+        choice = input(
+            "\n🛒 Nhập ID để thêm vào giỏ | "
+            "R + ID để xem review (vd: R3) | Enter để bỏ qua: "
+        ).strip()
+        
+        if choice.startswith("R") or choice.startswith("r"):
+            pid = choice[1:]
+            if not pid.isdigit():
+                print("❌ ID không hợp lệ!")
+            else:
+                pid = int(pid)
+                if 0 <= pid < total_products:
+                    product = all_products[pid]
+                    view_product_reviews(product["name"])
+            continue
+
         if choice != "":
             if not choice.isdigit():
                 print("❌ ID không hợp lệ!")
@@ -668,3 +723,144 @@ def top_up_balance(username):
     print("✅ NẠP TIỀN THÀNH CÔNG!")
     print(f"💰 Số dư mới: {users[username]['balance']} VND")
 
+def view_discounts():
+    # Load dữ liệu từ file
+    discount = load_discount()
+
+    print("\n" + "="*30)
+    print("   THÔNG TIN GIẢM GIÁ")
+    print("="*30)
+
+    # Kiểm tra xem trạng thái giảm giá có đang bật không
+    status = "Đang áp dụng" if discount.get("active") else "Đang tắt"
+    print(f"● Trạng thái: {status}")
+
+    # Kiểm tra loại giảm giá (phần trăm hoặc số tiền cố định)
+    discount_type = discount.get("type")
+    value = discount.get("value", 0)
+
+    if discount_type == "percent":
+        print(f"● Loại giảm giá: Giảm theo phần trăm (%)")
+        print(f"● Mức giảm: {value}%")
+    else:
+        # Giả sử "amount" là giảm theo số tiền cụ thể
+        print(f"● Loại giảm giá: Giảm theo số tiền")
+        print(f"● Mức giảm: {value:,} VNĐ")
+
+    print("="*30 + "\n")
+
+def get_completed_orders(username):
+    orders = load_orders()
+    completed_items = []
+
+    if username not in orders:
+        return completed_items
+
+    for order in orders[username]:
+        if order.get("status") == "Hoàn thành":
+            for item in order.get("items", []):
+                completed_items.append({
+                    "order_id": order["order_id"],
+                    "product_name": item["name"]
+                })
+
+    return completed_items
+
+def is_reviewed(username, order_id, product_name):
+    reviews = load_reviews()
+
+    user_reviews = reviews.get(username, [])
+    for r in user_reviews:
+        if r["order_id"] == order_id and r["product_name"] == product_name:
+            return True
+    return False
+
+def review_product(username):
+    completed_items = get_completed_orders(username)
+
+    if not completed_items:
+        print("❌ Bạn chưa có đơn hàng hoàn thành để đánh giá!")
+        return
+
+    print("\n=== SẢN PHẨM CÓ THỂ ĐÁNH GIÁ ===")
+    for idx, item in enumerate(completed_items):
+        status = "✔ Đã đánh giá" if is_reviewed(
+            username, item["order_id"], item["product_name"]
+        ) else ""
+        print(f"{idx}. {item['product_name']} (Đơn: {item['order_id']}) {status}")
+
+    try:
+        choice = int(input("\nChọn ID sản phẩm để đánh giá: "))
+        if choice < 0 or choice >= len(completed_items):
+            print("❌ ID không hợp lệ!")
+            return
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    selected = completed_items[choice]
+
+    if is_reviewed(username, selected["order_id"], selected["product_name"]):
+        print("⚠️ Sản phẩm này đã được đánh giá!")
+        return
+
+    # Nhập sao
+    rating = input("⭐ Nhập số sao (1-5): ").strip()
+    if not rating.isdigit() or not (1 <= int(rating) <= 5):
+        print("❌ Số sao không hợp lệ!")
+        return
+
+    comment = input("💬 Nhập nhận xét (có thể bỏ trống): ").strip()
+
+    reviews = load_reviews()
+    if username not in reviews:
+        reviews[username] = []
+
+    reviews[username].append({
+        "order_id": selected["order_id"],
+        "product_name": selected["product_name"],
+        "rating": int(rating),
+        "comment": comment,
+        "review_date": time.strftime("%d/%m/%Y %H:%M:%S")
+    })
+
+    save_reviews(reviews)
+
+    print("✅ ĐÁNH GIÁ THÀNH CÔNG!")
+def get_reviews_by_product(product_name):
+    reviews = load_reviews()
+    result = []
+
+    for user, user_reviews in reviews.items():
+        for r in user_reviews:
+            if r["product_name"].lower() == product_name.lower():
+                result.append({
+                    "username": user,
+                    "rating": r["rating"],
+                    "comment": r["comment"],
+                    "review_date": r["review_date"]
+                })
+    return result
+def view_product_reviews(product_name):
+    reviews = get_reviews_by_product(product_name)
+
+    print(f"\n=== REVIEW SẢN PHẨM: {product_name} ===")
+
+    if not reviews:
+        print("📭 Chưa có đánh giá nào cho sản phẩm này.")
+        return
+
+    total_star = 0
+
+    for idx, r in enumerate(reviews, start=1):
+        total_star += r["rating"]
+        print(f"\n#{idx}")
+        print(f"👤 Người mua: {r['username']}")
+        print(f"⭐ Đánh giá: {r['rating']}/5")
+        if r["comment"]:
+            print(f"💬 Nhận xét: {r['comment']}")
+        print(f"🕒 Ngày đánh giá: {r['review_date']}")
+
+    avg = round(total_star / len(reviews), 1)
+    print("\n" + "-"*30)
+    print(f"⭐ Điểm trung bình: {avg}/5 ({len(reviews)} đánh giá)")
