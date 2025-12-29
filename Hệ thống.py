@@ -68,12 +68,15 @@ def main():
         if choice == "1":
             xoa_man_hinh()
             login()
+            input("\nNhấn Enter để tiếp tục:")
         elif choice == "2":
             xoa_man_hinh()
             register()
+            input("\nNhấn Enter để tiếp tục:")
         elif choice == "3":
             xoa_man_hinh()
             forgot_password()
+            input("\nNhấn Enter để tiếp tục:")
         elif choice == "4":
             print("Thoát chương trình...")
             break

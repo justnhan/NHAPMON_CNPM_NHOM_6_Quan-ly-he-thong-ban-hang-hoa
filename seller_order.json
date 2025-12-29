@@ -1,0 +1,16 @@
+{
+
+    "dangdan1": [
+        {
+            "order_id": "DH17669985895727",
+            "buyer": "nhan",
+            "product_name": "Tai nghe Apple AirPods Pro 2",
+            "quantity": 1,
+            "total": 4990000,
+            "payment_status": "Đã thanh toán",
+            "delivery_status": "Đang giao",
+            "order_status": "Chưa hoàn thành",
+            "time": "29/12/2025 15:56"
+        }
+    ]
+}

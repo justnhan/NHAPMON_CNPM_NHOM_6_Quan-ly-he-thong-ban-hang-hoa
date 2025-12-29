@@ -1,14 +1,21 @@
 import json
 import os
+import time
+import uuid
+import random
 from utils import format_money_vn
 from seller_notification import add_notification
-
 from order_buyer import *
+
+
+# khởi tạo đường dẫn cho file dữ liệu
+#----------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 
 CART_FILE = os.path.join(BASE_DIR, "cart.json")  # cart.json nằm cùng thư mục
 
 PRODUCT_FILE =  os.path.join(BASE_DIR, "products.json")     # products.json nằm cùng thư mục
+
 
 # ------- Hàm tải dữ liệu Sản phẩm -------
 def load_products():
@@ -20,6 +27,10 @@ def load_products():
             print("⚠️ File sản phẩm lỗi. Tạo mới...")
             return {}
     return {}
+
+def save_products(products):
+    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
+        json.dump(products, f, ensure_ascii=False, indent=4)
 
 # ------- Hàm tải dữ liệu Giỏ hàng -------
 def load_cart():
@@ -35,6 +46,24 @@ def save_cart(data):
     with open(CART_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+# Hàm tải dữ liệu Đơn hàng
+def load_orders():
+    if os.path.exists(ORDER_FILE):
+        try:
+            with open(ORDER_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except:
+            print("⚠️ File đơn hàng lỗi. Tạo mới...")
+            return {}
+    return {}
+
+def save_orders(data):
+    with open(ORDER_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+
+
+#Hàm phụ trợ
 def decrease_stock(product_name, buy_quantity):
     products = load_products()
 
@@ -50,7 +79,37 @@ def decrease_stock(product_name, buy_quantity):
     with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
         json.dump(products, f, ensure_ascii=False, indent=4)
 
+def add_to_cart(username, product, buy_qty):
+    carts = load_cart()
 
+    if username not in carts:
+        carts[username] = []
+
+    # Check tồn kho
+    if buy_qty > product["quantity"]:
+        print("❌ Vượt quá tồn kho!")
+        return
+
+    # Nếu sản phẩm đã có → cộng số lượng
+    for item in carts[username]:
+        if item["name"] == product["name"]:
+            item["quantity"] += buy_qty
+            save_cart(carts)
+            print("✅ Đã cập nhật số lượng trong giỏ!")
+            return
+
+    # Nếu chưa có → thêm mới
+    carts[username].append({
+        "name": product["name"],
+        "price": product["price"],
+        "quantity": buy_qty
+    })
+
+    save_cart(carts)
+    print("✅ Đã thêm vào giỏ hàng!")
+
+
+# Hàm các chức năng chính
 def view_cart(username):
     cart = load_cart()
 
@@ -133,34 +192,6 @@ def view_cart(username):
     elif choice == "3":
         place_order(username)
 
-def add_to_cart(username, product, buy_qty):
-    carts = load_cart()
-
-    if username not in carts:
-        carts[username] = []
-
-    # Check tồn kho
-    if buy_qty > product["quantity"]:
-        print("❌ Vượt quá tồn kho!")
-        return
-
-    # Nếu sản phẩm đã có → cộng số lượng
-    for item in carts[username]:
-        if item["name"] == product["name"]:
-            item["quantity"] += buy_qty
-            save_cart(carts)
-            print("✅ Đã cập nhật số lượng trong giỏ!")
-            return
-
-    # Nếu chưa có → thêm mới
-    carts[username].append({
-        "name": product["name"],
-        "price": product["price"],
-        "quantity": buy_qty
-    })
-
-    save_cart(carts)
-    print("✅ Đã thêm vào giỏ hàng!")
 
 def search_product(username):
     products = load_products()
@@ -261,23 +292,7 @@ def search_product(username):
     print("✅ Đã thêm sản phẩm vào giỏ!")
     view_cart(username)
 
-# load & save đơn hàng
-def load_orders():
-    if os.path.exists(ORDER_FILE):
-        try:
-            with open(ORDER_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except:
-            print("⚠️ File đơn hàng lỗi. Tạo mới...")
-            return {}
-    return {}
 
-def save_orders(data):
-    with open(ORDER_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-import time
-import uuid
 
 def place_order(username):
     products = load_products()
@@ -372,12 +387,11 @@ def place_order(username):
     print(f"💰 Tổng tiền: {total} VND")
 
 
-import random
 
 def view_all_products(username):
     products = load_products()
 
-    print("\n=== DANH SÁCH SẢN PHẨM NGẪU NHIÊN ===")
+    print("\n=== DANH SÁCH SẢN PHẨM ===")
 
     if not products:
         print("❌ Hiện chưa có sản phẩm nào!")
@@ -459,7 +473,7 @@ def view_all_products(username):
             print("↩ Đã dừng xem sản phẩm.")
             break
 
-def search_product_by_username():
+def search_product_by_username(username):
     products = load_products()
 
     if not products:
@@ -467,25 +481,24 @@ def search_product_by_username():
         return
 
     keyword = input("👤 Nhập username người bán (gần đúng): ").strip().lower()
-
     if not keyword:
         print("❌ Username không được để trống!")
         return
 
-    # 1. Tìm các username khớp gần đúng
+    # 1. Tìm người bán
     matched_sellers = [
-        username for username in products.keys()
-        if keyword in username.lower()
+        u for u in products.keys()
+        if keyword in u.lower()
     ]
 
     if not matched_sellers:
         print("❌ Không tìm thấy người bán phù hợp!")
         return
 
-    # 2. Nếu nhiều người bán → cho chọn
+    # 2. Chọn người bán
     print("\n=== NGƯỜI BÁN PHÙ HỢP ===")
-    for idx, username in enumerate(matched_sellers):
-        print(f"{idx}. {username}")
+    for idx, u in enumerate(matched_sellers):
+        print(f"{idx}. {u}")
 
     try:
         choice = int(input("Chọn ID người bán: "))
@@ -504,10 +517,7 @@ def search_product_by_username():
         return
 
     # 3. Tính độ rộng cột tên
-    name_width = max(
-        (len(item["name"]) for item in seller_products),
-        default=20
-    )
+    name_width = max(len(p["name"]) for p in seller_products)
     name_width = max(name_width, 20)
 
     # 4. In danh sách sản phẩm
@@ -515,12 +525,34 @@ def search_product_by_username():
     print(f"{'ID':<3} {'Tên sản phẩm':<{name_width}} {'Giá':<10} {'Tồn kho'}")
     print("-" * (name_width + 30))
 
-    for idx, item in enumerate(seller_products):
-        if all(k in item for k in ("name", "price", "quantity")):
-            print(f"{idx:<3} {item['name']:<{name_width}} {item['price']:<10} {item['quantity']}")
+    for idx, p in enumerate(seller_products):
+        print(f"{idx:<3} {p['name']:<{name_width}} {p['price']:<10} {p['quantity']}")
 
     print("-" * (name_width + 30))
     print(f"📦 Tổng số sản phẩm: {len(seller_products)}")
+
+    # 5. Chọn sản phẩm
+    try:
+        pid = int(input("\nNhập ID sản phẩm muốn thêm vào giỏ: "))
+        if pid < 0 or pid >= len(seller_products):
+            print("❌ ID không hợp lệ!")
+            return
+    except:
+        print("❌ ID không hợp lệ!")
+        return
+
+    product = seller_products[pid]
+
+    # 6. Nhập số lượng
+    qty = input("Nhập số lượng muốn mua: ").strip()
+    if not qty.isdigit() or int(qty) <= 0:
+        print("❌ Số lượng phải là số > 0!")
+        return
+
+    qty = int(qty)
+
+    # 7. GỌI HÀM add_to_cart CỦA BẠN
+    add_to_cart(username, product, qty)
 
     
 def view_top_10_products(username):
@@ -635,6 +667,4 @@ def top_up_balance(username):
 
     print("✅ NẠP TIỀN THÀNH CÔNG!")
     print(f"💰 Số dư mới: {users[username]['balance']} VND")
-def save_products(products):
-    with open(PRODUCT_FILE, "w", encoding="utf-8") as f:
-        json.dump(products, f, ensure_ascii=False, indent=4)
+

@@ -4,6 +4,9 @@ from order_buyer import *
 from feature_admin import *
 from utils import format_money_vn
 from seller_notification import *
+import os
+
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # thư mục chứa file .py
 DATA_FILE = os.path.join(BASE_DIR, "users.json")       # users.json nằm cùng thư mục
@@ -29,6 +32,12 @@ def load_users():
             return json.load(f)
     except:
         return {}
+
+
+def xoa_man_hinh():
+    os.system("cls" if os.name == "nt" else "clear")
+def tiep_tuc():
+    input("\nNhấn Enter để tiếp tục:")
 
 # --- Hàm giao diện người mua và người bán ---
 
@@ -103,7 +112,7 @@ def seller_giaodien():
     print(f"{CYAN}╚════════════════════════════╝{RESET}")
 
     print(f"{YELLOW}1.{RESET} Xem danh sách sản phẩm của SHOP")
-    print(f"{YELLOW}2.{RESET} Tìm để thêm sản phẩm mới")
+    print(f"{YELLOW}2.{RESET} Thêm sản phẩm mới")
     print(f"{YELLOW}3.{RESET} Sửa thông tin sản phẩm")
     print(f"{YELLOW}4.{RESET} Xóa sản phẩm")
     print(f"{YELLOW}5.{RESET} Xem đơn hàng của cửa hàng")
@@ -119,22 +128,28 @@ def buyer_menu(username):
     while True:
         choice = buyer_giaodien()   # giữ nguyên hàm này
         if choice == "1":
+            xoa_man_hinh()
             view_all_products(username)
             tiep_tuc()
             # gọi hàm tương ứng
         elif choice == "2":
+            xoa_man_hinh()
             view_top_10_products(username)
             tiep_tuc()
         elif choice == "3":
+            xoa_man_hinh()
             search_product(username)
             tiep_tuc()
         elif choice == "4":
-            search_product_by_username()
+            xoa_man_hinh()
+            search_product_by_username(username)
             tiep_tuc()
         elif choice == "5":
+            xoa_man_hinh()
             view_cart(username)
             tiep_tuc()
         elif choice == "6":
+            xoa_man_hinh()
             view_order_history(username)
             tiep_tuc()
         elif choice == "0":
@@ -148,21 +163,27 @@ def seller_menu(username):
     while True:
         choice = seller_giaodien()
         if choice == "1":
+            xoa_man_hinh()
             view_products_seller(username)
             tiep_tuc()
         elif choice == "2":
+            xoa_man_hinh()
             add_product(username)
             tiep_tuc()
         elif choice == "3":
+            xoa_man_hinh()
             edit_product(username)
             tiep_tuc()
         elif choice == "4":
+            xoa_man_hinh()
             delete_product(username)
             tiep_tuc()
         elif choice == "5":
+            xoa_man_hinh()
             print("Xem đơn hàng - chưa hoàn thiện")
             tiep_tuc()
         elif choice == "6":
+            xoa_man_hinh()
             view_notifications(username)
             update_order_status(username)
             tiep_tuc()
@@ -212,20 +233,29 @@ def admin_menu(username):
         choice = admin_giaodien()
 
         if choice == "1":
+            xoa_man_hinh()
             show_sellers()
+            tiep_tuc()
         elif choice == "2":
+            xoa_man_hinh()
             show_buyers()
+            tiep_tuc()
         elif choice == "3":
+            xoa_man_hinh()
             show_all_products()
+            tiep_tuc()
         elif choice == "4":
+            xoa_man_hinh()
             delete_user_by_role("seller")
+            tiep_tuc()
         elif choice == "5":
+            xoa_man_hinh()
             delete_user_by_role("buyer")
+            tiep_tuc()
         elif choice == "0":
             print("Đăng xuất...")
             break
         else:
             print("❌ Lựa chọn không hợp lệ!")
 
-def tiep_tuc():
-    input("\nNhấn Enter để tiếp tục:")
+

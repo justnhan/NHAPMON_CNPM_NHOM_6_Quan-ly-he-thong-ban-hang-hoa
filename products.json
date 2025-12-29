@@ -41,8 +41,8 @@
         {
             "name": "Tai nghe Apple AirPods Pro 2",
             "price": 4990000,
-            "quantity": 16,
-            "total_purchased": 8
+            "quantity": 15,
+            "total_purchased": 9
         },
         {
             "name": "Sạc dự phòng Anker PowerCore Slim 10000",
@@ -73,6 +73,13 @@
             "price": 490000,
             "quantity": 70,
             "total_purchased": 4
+        }
+    ],
+    "a": [
+        {
+            "name": "Hồ Anh",
+            "price": 1500,
+            "quantity": 40
         }
     ]
 }
